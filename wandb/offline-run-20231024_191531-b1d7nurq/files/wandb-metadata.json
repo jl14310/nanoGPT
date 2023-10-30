@@ -1,0 +1,290 @@
+{
+    "os": "Linux-4.18.0-372.26.1.el8_6.x86_64-x86_64-with-glibc2.35",
+    "python": "3.10.13",
+    "heartbeatAt": "2023-10-24T23:15:31.277288",
+    "startedAt": "2023-10-24T23:15:31.140118",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "config/train_gpt2.py"
+    ],
+    "state": "running",
+    "program": "/scratch/jl14310/nanoGPTenv/nanoGPT/train.py",
+    "codePathLocal": "train.py",
+    "codePath": "train.py",
+    "git": {
+        "remote": "https://github.com/karpathy/nanoGPT.git",
+        "commit": "eba36e84649f3c6d840a93092cb779a260544d08"
+    },
+    "email": null,
+    "root": "/scratch/jl14310/nanoGPTenv/nanoGPT",
+    "host": "gv005.hpc.nyu.edu",
+    "username": "jl14310",
+    "executable": "/ext3/miniconda3/bin/python",
+    "cpu_count": 48,
+    "cpu_count_logical": 48,
+    "cpu_freq": {
+        "current": 3.883312500000003,
+        "min": 3900.0,
+        "max": 3900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.499,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.5,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.9,
+            "min": 3900.0,
+            "max": 3900.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 25.977550506591797,
+            "used": 5.143035888671875
+        }
+    },
+    "gpu": "Tesla V100-PCIE-32GB",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Tesla V100-PCIE-32GB",
+            "memory_total": 34359738368
+        }
+    ],
+    "memory": {
+        "total": 377.3237648010254
+    }
+}

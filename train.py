@@ -56,7 +56,7 @@ dropout = 0.0 # for pretraining 0 is good, for finetuning try 0.1+
 bias = False # do we use bias inside LayerNorm and Linear layers?
 # adamw optimizer
 learning_rate = 6e-4 # max learning rate
-max_iters = 600000 # total number of training iterations
+max_iters = 5000 # total number of training iterations
 weight_decay = 1e-1
 beta1 = 0.9
 beta2 = 0.95
@@ -120,6 +120,7 @@ def get_batch(split):
     ix = torch.randint(len(data) - block_size, (batch_size,))
     x = torch.stack([torch.from_numpy((data[i:i+block_size]).astype(np.int64)) for i in ix])
     y = torch.stack([torch.from_numpy((data[i+1:i+1+block_size]).astype(np.int64)) for i in ix])
+    
     if device_type == 'cuda':
         # pin arrays x,y, which allows us to move them to GPU asynchronously (non_blocking=True)
         x, y = x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(device, non_blocking=True)
@@ -213,9 +214,9 @@ if ddp:
 def estimate_loss():
     out = {}
     model.eval()
-    for split in ['train', 'val']:
+    for split in ['train', 'val']: 
         losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
+        for k in range(eval_iters):   
             X, Y = get_batch(split)
             with ctx:
                 logits, loss = model(X, Y)
@@ -223,6 +224,7 @@ def estimate_loss():
         out[split] = losses.mean()
     model.train()
     return out
+
 
 # learning rate decay scheduler (cosine with warmup)
 def get_lr(it):
@@ -250,7 +252,7 @@ local_iter_num = 0 # number of iterations in the lifetime of this process
 raw_model = model.module if ddp else model # unwrap DDP container if needed
 running_mfu = -1.0
 while True:
-
+    
     # determine and set the learning rate for this iteration
     lr = get_lr(iter_num) if decay_lr else learning_rate
     for param_group in optimizer.param_groups:
@@ -259,7 +261,7 @@ while True:
     # evaluate the loss on train/val sets and write checkpoints
     if iter_num % eval_interval == 0 and master_process:
         losses = estimate_loss()
-        print(f"step {iter_num}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
+        print(f"step {iter_num}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}",flush=True)
         if wandb_log:
             wandb.log({
                 "iter": iter_num,
@@ -281,9 +283,10 @@ while True:
                 }
                 print(f"saving checkpoint to {out_dir}")
                 torch.save(checkpoint, os.path.join(out_dir, 'ckpt.pt'))
+    
     if iter_num == 0 and eval_only:
         break
-
+    
     # forward backward update, with optional gradient accumulation to simulate larger batch size
     # and using the GradScaler if data type is float16
     for micro_step in range(gradient_accumulation_steps):
@@ -321,7 +324,7 @@ while True:
         if local_iter_num >= 5: # let the training loop settle a bit
             mfu = raw_model.estimate_mfu(batch_size * gradient_accumulation_steps, dt)
             running_mfu = mfu if running_mfu == -1.0 else 0.9*running_mfu + 0.1*mfu
-        print(f"iter {iter_num}: loss {lossf:.4f}, time {dt*1000:.2f}ms, mfu {running_mfu*100:.2f}%")
+        print(f"iter {iter_num}: loss {lossf:.4f}, time {dt*1000:.2f}ms, mfu {running_mfu*100:.2f}%",flush=True)
     iter_num += 1
     local_iter_num += 1
 

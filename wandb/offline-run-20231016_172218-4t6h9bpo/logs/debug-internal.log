@@ -1,0 +1,214 @@
+2023-10-16 17:22:18,613 INFO    StreamThr :2582617 [internal.py:wandb_internal():86] W&B internal server running at pid: 2582617, started at: 2023-10-16 17:22:18.613052
+2023-10-16 17:22:18,614 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status
+2023-10-16 17:22:18,615 INFO    WriterThread:2582617 [datastore.py:open_for_write():85] open: /scratch/jl14310/nanoGPTenv/nanoGPT/wandb/offline-run-20231016_172218-4t6h9bpo/run-4t6h9bpo.wandb
+2023-10-16 17:22:18,695 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: run_start
+2023-10-16 17:22:18,715 DEBUG   HandlerThread:2582617 [system_info.py:__init__():32] System info init
+2023-10-16 17:22:18,715 DEBUG   HandlerThread:2582617 [system_info.py:__init__():47] System info init done
+2023-10-16 17:22:18,715 INFO    HandlerThread:2582617 [system_monitor.py:start():194] Starting system monitor
+2023-10-16 17:22:18,716 INFO    SystemMonitor:2582617 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2023-10-16 17:22:18,716 INFO    HandlerThread:2582617 [system_monitor.py:probe():214] Collecting system info
+2023-10-16 17:22:18,716 INFO    SystemMonitor:2582617 [interfaces.py:start():190] Started cpu monitoring
+2023-10-16 17:22:18,716 INFO    SystemMonitor:2582617 [interfaces.py:start():190] Started disk monitoring
+2023-10-16 17:22:18,717 INFO    SystemMonitor:2582617 [interfaces.py:start():190] Started gpu monitoring
+2023-10-16 17:22:18,718 INFO    SystemMonitor:2582617 [interfaces.py:start():190] Started memory monitoring
+2023-10-16 17:22:18,718 INFO    SystemMonitor:2582617 [interfaces.py:start():190] Started network monitoring
+2023-10-16 17:22:18,742 DEBUG   HandlerThread:2582617 [system_info.py:probe():196] Probing system
+2023-10-16 17:22:18,743 DEBUG   HandlerThread:2582617 [system_info.py:_probe_git():181] Probing git
+2023-10-16 17:22:18,749 DEBUG   HandlerThread:2582617 [system_info.py:_probe_git():189] Probing git done
+2023-10-16 17:22:18,749 DEBUG   HandlerThread:2582617 [system_info.py:probe():244] Probing system done
+2023-10-16 17:22:18,749 DEBUG   HandlerThread:2582617 [system_monitor.py:probe():223] {'os': 'Linux-4.18.0-372.26.1.el8_6.x86_64-x86_64-with-glibc2.35', 'python': '3.10.13', 'heartbeatAt': '2023-10-16T21:22:18.742587', 'startedAt': '2023-10-16T21:22:18.603589', 'docker': None, 'cuda': None, 'args': ('config/train_gpt2.py',), 'state': 'running', 'program': '/scratch/jl14310/nanoGPTenv/nanoGPT/train.py', 'codePathLocal': 'train.py', 'codePath': 'train.py', 'git': {'remote': 'https://github.com/karpathy/nanoGPT.git', 'commit': 'eba36e84649f3c6d840a93092cb779a260544d08'}, 'email': None, 'root': '/scratch/jl14310/nanoGPTenv/nanoGPT', 'host': 'gr036.hpc.nyu.edu', 'username': 'jl14310', 'executable': '/ext3/miniconda3/bin/python', 'cpu_count': 48, 'cpu_count_logical': 48, 'cpu_freq': {'current': 3.8251875000000024, 'min': 3900.0, 'max': 3900.0}, 'cpu_freq_per_core': [{'current': 3.351, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.5, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.499, 'min': 3900.0, 'max': 3900.0}, {'current': 3.428, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.446, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.5, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}, {'current': 3.9, 'min': 3900.0, 'max': 3900.0}], 'disk': {'/': {'total': 25.977550506591797, 'used': 5.143035888671875}}, 'gpu': 'Quadro RTX 8000', 'gpu_count': 1, 'gpu_devices': [{'name': 'Quadro RTX 8000', 'memory_total': 48318382080}], 'memory': {'total': 377.3243598937988}}
+2023-10-16 17:22:18,753 INFO    HandlerThread:2582617 [system_monitor.py:probe():224] Finished collecting system info
+2023-10-16 17:22:18,753 INFO    HandlerThread:2582617 [system_monitor.py:probe():227] Publishing system info
+2023-10-16 17:22:18,753 DEBUG   HandlerThread:2582617 [system_info.py:_save_pip():52] Saving list of pip packages installed into the current environment
+2023-10-16 17:22:18,753 DEBUG   HandlerThread:2582617 [system_info.py:_save_pip():68] Saving pip packages done
+2023-10-16 17:22:18,754 DEBUG   HandlerThread:2582617 [system_info.py:_save_conda():75] Saving list of conda packages installed into the current environment
+2023-10-16 17:22:23,452 DEBUG   HandlerThread:2582617 [system_info.py:_save_conda():87] Saving conda packages done
+2023-10-16 17:22:23,453 INFO    HandlerThread:2582617 [system_monitor.py:probe():229] Finished publishing system info
+2023-10-16 17:22:23,616 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:23,616 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:22:28,617 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:28,617 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:22:33,626 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:33,627 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:22:38,627 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:38,627 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:22:43,628 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:43,628 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:22:48,629 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:48,629 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:22:53,629 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:53,629 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:22:58,630 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:22:58,630 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:03,631 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:03,631 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:06,148 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: partial_history
+2023-10-16 17:23:08,631 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:08,632 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:13,632 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:13,632 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:18,639 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:18,639 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:18,718 DEBUG   SystemMonitor:2582617 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2023-10-16 17:23:23,639 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:23,640 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:28,640 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:28,640 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:33,641 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:33,641 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:38,641 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:38,641 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:43,642 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:43,642 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:48,643 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:48,643 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:53,643 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:53,643 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:23:58,644 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:23:58,644 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:03,644 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:03,645 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:08,645 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:08,645 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:13,646 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:13,646 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:18,646 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:18,646 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:23,647 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:23,647 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:28,647 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:28,648 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:33,648 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:33,648 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:38,649 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:38,649 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:43,649 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:43,649 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:48,650 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:48,650 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:53,650 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:53,651 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:24:58,651 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:24:58,652 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:03,652 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:03,652 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:08,653 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:08,653 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:13,653 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:13,653 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:18,654 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:18,654 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:23,655 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:23,655 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:28,655 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:28,655 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:33,656 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:33,656 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:38,656 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:38,657 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:43,657 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:43,657 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:48,658 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:48,658 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:53,658 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:53,658 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:25:58,659 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:25:58,659 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:03,660 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:03,660 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:08,660 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:08,660 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:13,661 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:13,661 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:18,661 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:18,662 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:23,662 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:23,662 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:28,663 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:28,663 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:33,663 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:33,663 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:38,664 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:38,664 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:43,664 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:43,665 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:48,665 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:48,665 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:53,666 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:53,666 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:26:58,666 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:26:58,666 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:03,667 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:03,667 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:08,668 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:08,668 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:13,668 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:13,668 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:18,669 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:18,669 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:23,670 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:23,670 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:28,670 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:28,670 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:33,671 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:33,671 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:38,672 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:38,672 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:43,672 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:43,672 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:48,673 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:48,673 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:53,674 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:53,674 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:27:58,674 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:27:58,674 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:03,675 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:03,675 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:08,675 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:08,676 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:13,676 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:13,676 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:18,677 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:18,677 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:23,677 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:23,677 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:28,678 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:28,678 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:33,678 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:33,679 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:38,679 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:38,679 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:43,680 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:43,680 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:48,680 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:48,680 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:53,681 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:53,681 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:28:58,681 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:28:58,682 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:03,682 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:03,682 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:08,683 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:08,683 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:13,683 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:13,683 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:18,684 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:18,684 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:23,684 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:23,685 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:28,685 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:28,685 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:33,686 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:33,686 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:38,686 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:38,686 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:43,687 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:43,687 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:48,688 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:48,688 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:53,688 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:53,688 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:29:58,689 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:29:58,689 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report
+2023-10-16 17:30:03,690 DEBUG   HandlerThread:2582617 [handler.py:handle_request():146] handle_request: status_report
+2023-10-16 17:30:03,690 DEBUG   SenderThread:2582617 [sender.py:send_request():407] send_request: status_report

@@ -1,0 +1,290 @@
+{
+    "os": "Linux-4.18.0-372.26.1.el8_6.x86_64-x86_64-with-glibc2.35",
+    "python": "3.10.13",
+    "heartbeatAt": "2023-10-20T17:01:36.575128",
+    "startedAt": "2023-10-20T17:01:36.347412",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "config/train_gpt2.py"
+    ],
+    "state": "running",
+    "program": "/scratch/jl14310/nanoGPTenv/nanoGPT/train.py",
+    "codePathLocal": "train.py",
+    "codePath": "train.py",
+    "git": {
+        "remote": "https://github.com/karpathy/nanoGPT.git",
+        "commit": "eba36e84649f3c6d840a93092cb779a260544d08"
+    },
+    "email": null,
+    "root": "/scratch/jl14310/nanoGPTenv/nanoGPT",
+    "host": "gr017.hpc.nyu.edu",
+    "username": "jl14310",
+    "executable": "/ext3/miniconda3/bin/python",
+    "cpu_count": 48,
+    "cpu_count_logical": 48,
+    "cpu_freq": {
+        "current": 2932.9016458333335,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3360.756,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2872.848,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3598.294,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2511.26,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3727.092,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3721.963,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 25.977550506591797,
+            "used": 5.143035888671875
+        }
+    },
+    "gpu": "Quadro RTX 8000",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Quadro RTX 8000",
+            "memory_total": 48318382080
+        }
+    ],
+    "memory": {
+        "total": 377.3240394592285
+    }
+}
