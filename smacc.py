@@ -6,7 +6,10 @@ import argparse
 import subprocess
 import json
 
-class gpt2(seed):
+class gpt2:
+    def __init__(self, seed):
+        self.seed = seed
+        
     @property
     def configspace(self) -> ConfigurationSpace:
         cs = ConfigurationSpace(seed = self.seed)
