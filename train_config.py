@@ -152,7 +152,7 @@ def train(conf: ConfigTree):
     if master_process:
         os.makedirs(out_dir, exist_ok=True)
     seed = conf.get_int("seed")
-    print("--------seed----------',seed)
+    print('--------seed----------',seed)
     torch.manual_seed(seed + seed_offset)
     torch.backends.cuda.matmul.allow_tf32 = True  # allow tf32 on matmul
     torch.backends.cudnn.allow_tf32 = True  # allow tf32 on cudnn
