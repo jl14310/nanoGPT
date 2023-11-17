@@ -69,13 +69,6 @@ warmup_iters = 2000 # how many steps to warm up for
 lr_decay_iters = 600000 # should be ~= max_iters per Chinchilla
 min_lr = 6e-5 # minimum learning rate, should be ~= learning_rate/10 per Chinchilla
 
-parser = argparse.ArgumentParser(description='Train the model')
-parser.add_argument('config_file', help='Path to the configuration file')
-parser.add_argument('--seed', type=int, help='Random seed for reproducibility', default=42)
-args = parser.parse_args()
-
-seed = args.seed
-print('""""""""""seed\n',seed,'\n""""""""""""')
 
 # DDP settings
 backend = 'nccl' # 'nccl', 'gloo', etc.
@@ -88,7 +81,7 @@ config_keys = [k for k,v in globals().items() if not k.startswith('_') and isins
 exec(open('configurator.py').read()) # overrides from command line or config file
 config = {k: globals()[k] for k in config_keys} # will be useful for logging
 # -----------------------------------------------------------------------------
-
+print(config)
 # various inits, derived attributes, I/O setup
 ddp = int(os.environ.get('RANK', -1)) != -1 # is this a ddp run?
 if ddp:
@@ -114,7 +107,7 @@ print(f"tokens per iteration will be: {tokens_per_iter:,}")
 
 if master_process:
     os.makedirs(out_dir, exist_ok=True)
-torch.manual_seed(seed)
+torch.manual_seed(seed=30)
 torch.backends.cuda.matmul.allow_tf32 = True # allow tf32 on matmul
 torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
 device_type = 'cuda' if 'cuda' in device else 'cpu' # for later use in torch.autocast
