@@ -1,30 +1,26 @@
 from ConfigSpace import Constant, Configuration, ConfigurationSpace, Float,Integer, Categorical, Normal
-import os
+
 from smac import HyperparameterOptimizationFacade, Scenario
 from smac.runhistory.dataclasses import TrialValue
-import numpy as np
-import torch as ch
-from torch.cuda.amp import GradScaler, autocast
-from torch.nn import CrossEntropyLoss
-from torch.optim import SGD, lr_scheduler
-from tqdm import tqdm
+import argparse
 import subprocess
 import json
-class resnet:
+
+class gpt2:
     @property
     def configspace(self) -> ConfigurationSpace:
         cs = ConfigurationSpace(seed = 0)
         batch_size = Integer('batch_size',(8,13),default = 12)
         block_size = Constant('block_size',1024)#Integer('block_size',(1024,1024),default = 1024)
         learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-        max_iters = Constant('max_iters',30)#Integer('max_iters',(5000,5000),default = 5000)
+        max_iters = Constant('max_iters',5000)#Integer('max_iters',(5000,5000),default = 5000)
         weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-        lr_decay_iters = Constant('lr_decay_iters',30)
+        lr_decay_iters = Constant('lr_decay_iters',5000)
         cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay])
         return cs
 
 
-    def train(self,config:Configuration,seed:int=0):
+    def train(self,config:Configuration, seed:int):
     # Convert the hyperparameters to their appropriate types
         batch_size = int(config['batch_size'])
         block_size = int(config['block_size'])
@@ -47,11 +43,12 @@ class resnet:
             'weight_decay': weight_decay,
         }
 
+
         results = ''.join(['{name} = {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
         print(results)
         with open('gpt2_config.py', 'w') as f:
             f.write(results)
-        command = ['python', 'train.py', 'gpt2_config.py']
+        command = ['python', 'train.py', 'gpt2_config.py', '--seed', str(seed)]
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
@@ -67,38 +64,42 @@ class resnet:
 
 
 
-
-
 if __name__ == "__main__":
-    model = resnet()
-    print('model')
+    parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
+    parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
+    args = parser.parse_args()
+
+    # Now you can use args.seed to set your seed
+    seed = args.seed
+
+    model = gpt2()
+    print('set up: model')
+
     # Scenario object
     scenario = Scenario(model.configspace, deterministic=False, n_trials=100)
-    print('scenario')
+    print('set up: scenario')
     intensifier = HyperparameterOptimizationFacade.get_intensifier(
         scenario,
         max_config_calls=1,  # We basically use one seed per config only
     )
-    print('intensifier')
-    os.environ['WANDB_MODE'] = 'offline'
+    print('set up: intensifier')
     # Now we use SMAC to find the best hyperparameters
-    smac = HyperparameterOptimizationFacade(
+    smac = HyperparameterOptimizationFacade( #random forest  BlackBoxFacade is bayesian (initial_design=initial)
         scenario,
         model.train,
         intensifier=intensifier,
         overwrite=True,
     )
-    print('smac')
-    
+    print('set up: smac')
+
     # We can ask SMAC which trials should be evaluated next
     for i in range(10):
         print(i)
         info = smac.ask()
         assert info.seed is not None
-        print('info')
-        
+        print(i, 'info')
         cost = model.train(config=info.config, seed=info.seed)
-        print('cost')
+        print(i, 'cost')
         value = TrialValue(cost=cost, time=0.5)
-        print('value')
+        print(i, 'value')
         smac.tell(info, value)
