@@ -141,6 +141,14 @@ def train(conf: ConfigTree):
 
     out_dir = conf.get_string("out_dir")
     dtype = conf.get_string("dtype")
+    if torch.cuda.is_available():
+      if torch.cuda.is_bf16_supported():  # Check if the device supports bfloat16
+          dtype = "bfloat16"
+      else:
+          dtype = "float16"  # Fallback to float16 if bfloat16 is not supported
+    else:
+      dtype = "float32"  # Use float32 for CPU
+  
     if master_process:
         os.makedirs(out_dir, exist_ok=True)
     torch.manual_seed(1337 + seed_offset)
