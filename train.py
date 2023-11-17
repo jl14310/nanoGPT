@@ -70,6 +70,7 @@ lr_decay_iters = 600000 # should be ~= max_iters per Chinchilla
 min_lr = 6e-5 # minimum learning rate, should be ~= learning_rate/10 per Chinchilla
 
 parser = argparse.ArgumentParser(description='Train the model')
+parser.add_argument('config_file', help='Path to the configuration file')
 parser.add_argument('--seed', type=int, help='Random seed for reproducibility', default=42)
 args = parser.parse_args()
 
