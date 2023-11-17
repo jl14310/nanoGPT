@@ -39,6 +39,7 @@ def train(conf: ConfigTree):
     device = conf.get_string("device")
     gradient_accumulation_steps = conf.get_int("gradient_accumulation_steps")
     ddp = conf.get_int("ddp_rank") != -1  # is this a ddp run?
+    print('ddp',ddp)
     if ddp:
         init_process_group(backend=conf.get("backend"))
         # torch.cuda.set_device(): Usage of this function is discouraged in favor of device.
