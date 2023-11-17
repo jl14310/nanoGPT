@@ -19,6 +19,7 @@ class gpt2:
         max_iters = Constant('max_iters',20)#5000)
         weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
         lr_decay_iters = Constant('lr_decay_iters',20)#5000)
+        seed = Integer('seed',self.seed)
         cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay])
         return cs
 
@@ -31,6 +32,7 @@ class gpt2:
         max_iters = int(config['max_iters'])
         lr_decay_iters = int(config['lr_decay_iters'])
         weight_decay = config['weight_decay']
+        seed = int(config(['seed']))
         
 
         # Generate the YAML configuration file
@@ -44,23 +46,25 @@ class gpt2:
             'eval_interval': 1000,
             'eval_iters': 200,
             'log_interval': 10,
-            'weight_decay': weight_decay
+            'weight_decay': weight_decay,
+            'seed':seed
         }
 
 
         config_content = ''.join(['{name} = {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
         config_file_content = f'include "default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
-
+        
         print(config_content)
         with open('temp_config.conf', 'w') as f:
             f.write(config_file_content)
-        command = ['python', 'train_config.py', '-f','temp_config.conf','-c',f'seed={self.seed}']
+        command = ['python', 'train_config.py', '-f','temp_config.conf','-c',f'seed={seed}']
+        print('seed')
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
         # Read the evaluation score from the subprocess output
         results = None
-        with open('results.json') as f:
+        with open(f'results_{seed}.json') as f:
             results = json.load(f)
             # print(results)
         evaluation_score = float(results['best_val_loss'][-1])
