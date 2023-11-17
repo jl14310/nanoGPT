@@ -48,11 +48,12 @@ class gpt2:
         }
 
 
-        results = ''.join(['{name} = {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
-        print(results)
+        config_content = ''.join(['{name} = {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
+        config_file_content = f'include "default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
+
+        print(config_content)
         with open('temp_config.conf', 'w') as f:
-            f.write("include "default_gpt2.conf")
-            f.write(results)
+            f.write(config_file_content)
         command = ['python', 'train_config.py', '-f','temp_config.conf','-c',f'seed={self.seed}']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
