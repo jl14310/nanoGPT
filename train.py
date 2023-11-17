@@ -24,6 +24,7 @@ from contextlib import nullcontext
 
 import numpy as np
 import torch
+import json
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed import init_process_group, destroy_process_group
 
@@ -55,7 +56,7 @@ n_embd = 768
 dropout = 0.0 # for pretraining 0 is good, for finetuning try 0.1+
 bias = False # do we use bias inside LayerNorm and Linear layers?
 # adamw optimizer
-learning_rate = 6e-4 # max learning rate
+learning_rate = 1e-4 # max learning rate
 max_iters = 5000 # total number of training iterations
 weight_decay = 1e-1
 beta1 = 0.9
@@ -129,6 +130,7 @@ def get_batch(split):
     return x, y
 
 # init these up here, can override if init_from='resume' (i.e. from a checkpoint)
+t_total = 0
 iter_num = 0
 best_val_loss = 1e9
 
@@ -331,6 +333,39 @@ while True:
     # termination conditions
     if iter_num > max_iters:
         break
+
+def tensor_to_serializable(obj):
+    if isinstance(obj, torch.Tensor):
+        # Convert tensors to lists or numbers
+        return obj.tolist() if obj.ndim > 0 else obj.item()
+    return obj
+
+def write_results(file, hyperparameters, runtime, accuracies):
+    dictionary = {}
+    if os.path.isfile(file):
+        with open(file,'r') as json_file:
+            print(json_file)
+            try:
+                dictionary = json.load(json_file)
+            except json.JSONDecodeError:
+                # Handle the case where the JSON file is empty or invalid
+                dictionary = {}
+    results = hyperparameters.copy()
+    results['time'] = runtime
+    results.update(accuracies)
+    
+    for key, value in results.items():
+        newvalue = tensor_to_serializable(value)
+        if key in dictionary:
+            dictionary[key].append(newvalue)
+        else:
+            dictionary[key] = [newvalue]
+    
+    with open(file, 'w') as f:
+        json.dump(dictionary, f, indent=4)
+
+write_results('results.json', config, t_total, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
+
 
 if ddp:
     destroy_process_group()
