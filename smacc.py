@@ -6,14 +6,14 @@ import argparse
 import subprocess
 import json
 
-class gpt2:
+class gpt2(seed):
     @property
     def configspace(self) -> ConfigurationSpace:
-        cs = ConfigurationSpace(seed = 0)
+        cs = ConfigurationSpace(seed = self.seed)
         batch_size = Integer('batch_size',(8,13),default = 12)
-        block_size = Constant('block_size',1024)#Integer('block_size',(1024,1024),default = 1024)
+        block_size = Constant('block_size',1024)
         learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-        max_iters = Constant('max_iters',5000)#Integer('max_iters',(5000,5000),default = 5000)
+        max_iters = Constant('max_iters',5000)
         weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
         lr_decay_iters = Constant('lr_decay_iters',5000)
         cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay])
@@ -28,6 +28,7 @@ class gpt2:
         max_iters = int(config['max_iters'])
         lr_decay_iters = int(config['lr_decay_iters'])
         weight_decay = config['weight_decay']
+        
 
         # Generate the YAML configuration file
         yaml_config = {
@@ -40,7 +41,7 @@ class gpt2:
             'eval_interval': 1000,
             'eval_iters': 200,
             'log_interval': 10,
-            'weight_decay': weight_decay,
+            'weight_decay': weight_decay
         }
 
 
@@ -48,7 +49,7 @@ class gpt2:
         print(results)
         with open('gpt2_config.py', 'w') as f:
             f.write(results)
-        command = ['python', 'train.py', 'gpt2_config.py', '--seed', str(seed)]
+        command = ['python', 'train.py', 'gpt2_config.py']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
@@ -72,7 +73,7 @@ if __name__ == "__main__":
     # Now you can use args.seed to set your seed
     seed = args.seed
 
-    model = gpt2()
+    model = gpt2(seed)
     print('set up: model')
 
     # Scenario object
