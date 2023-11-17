@@ -50,9 +50,10 @@ class gpt2:
 
         results = ''.join(['{name} = {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
         print(results)
-        with open('gpt2_config.py', 'w') as f:
+        with open('temp_config.conf', 'w') as f:
+            f.write("include "default_gpt2.conf")
             f.write(results)
-        command = ['python', 'train.py', 'gpt2_config.py']
+        command = ['python', 'train_config.py', '-f','temp_config.conf','-c',f'seed={self.seed}']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
