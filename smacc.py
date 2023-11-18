@@ -110,7 +110,7 @@ if __name__ == "__main__":
         info = smac.ask()
         assert info.seed is not None
         print(i, 'info')
-        cost = model.train(config=info.config)
+        cost = model.train(config=info.config,seed=info.seed)
         print(i, 'cost')
         value = TrialValue(cost=cost, time=0.5)
         print(i, 'value')
