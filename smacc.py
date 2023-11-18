@@ -32,6 +32,7 @@ class gpt2:
         max_iters = int(config['max_iters'])
         lr_decay_iters = int(config['lr_decay_iters'])
         weight_decay = config['weight_decay']
+        seed = int(config['seed'])
         
 
         # Generate the YAML configuration file
@@ -45,7 +46,8 @@ class gpt2:
             'eval_interval': 1000,
             'eval_iters': 200,
             'log_interval': 10,
-            'weight_decay': weight_decay
+            'weight_decay': weight_decay,
+            'seed':seed
         }
 
 
@@ -53,10 +55,9 @@ class gpt2:
         config_file_content = f'include "default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
         
         print(config_content)
-        with open('temp_config.conf', 'w') as f:
+        with open(f'config_{seed}.conf', 'w') as f:
             f.write(config_file_content)
         command = ['python', 'train_config.py', '-f','temp_config.conf','-c',f'seed={seed}']
-        print('seed')
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
