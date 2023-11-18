@@ -83,7 +83,7 @@ if __name__ == "__main__":
 
     model = gpt2(seed)
     print('set up: model')
-
+    print(seed,type(seed))
     # Scenario object
     scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
     print('set up: scenario')
