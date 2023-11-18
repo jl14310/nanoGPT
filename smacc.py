@@ -86,13 +86,16 @@ if __name__ == "__main__":
     # Scenario object
     scenario = Scenario(model.configspace, deterministic=False, n_trials=100)
     print('set up: scenario')
+    initial = RandomInitialDesign(scenario, config=8)
+    
     intensifier = HyperparameterOptimizationFacade.get_intensifier(
         scenario,
         max_config_calls=1,  # We basically use one seed per config only
     )
     print('set up: intensifier')
     # Now we use SMAC to find the best hyperparameters
-    smac = HyperparameterOptimizationFacade( #random forest  BlackBoxFacade is bayesian (initial_design=initial)
+    smac = HyperparameterOptimizationFacade( #random forest  BlackBoxFacade is bayesian 
+        initial_design=initial,
         scenario,
         model.train,
         intensifier=intensifier,
@@ -101,7 +104,7 @@ if __name__ == "__main__":
     print('set up: smac')
 
     # We can ask SMAC which trials should be evaluated next
-    for i in range(10):
+    for i in range(30):
         print(i)
         info = smac.ask()
         assert info.seed is not None
