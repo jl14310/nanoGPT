@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # Now we use SMAC to find the best hyperparameters
     smac = HyperparameterOptimizationFacade(  
         scenario,
-        model.train,
+        model.train(seed),
         intensifier=intensifier,
         initial_design=initial,
         overwrite=True,
