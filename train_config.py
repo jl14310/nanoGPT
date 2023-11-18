@@ -534,10 +534,12 @@ def main():
     print(conf)
     seed = conf.get_int("seed")
     print('--------seed----------',seed)
-
     assert len(conf) > 0, "no configuration provided"
+  
+    start_time = time.time()
     train(conf)
-    write_results(f'results_{seed}.json', config, t_total, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
+    
+    write_results(f'results_{seed}.json', conf, time.time()-start_time, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
 
 
 if __name__ == "__main__":
