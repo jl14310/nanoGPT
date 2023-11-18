@@ -547,6 +547,7 @@ def main():
   
     start_time = time.time()
     best_val_loss, iter_num = train(conf)
+    os.makedirs('bayesian_results', exist_ok=True)
     write_results(f'bayesian_results/results_{seed}.json', conf, time.time()-start_time, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
 
 
