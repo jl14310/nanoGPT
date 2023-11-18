@@ -24,7 +24,7 @@ class gpt2:
         return cs
 
 
-    def train(self,config:Configuration, seed:int):
+    def train(self,config:Configuration):
     # Convert the hyperparameters to their appropriate types
         batch_size = int(config['batch_size'])
         block_size = int(config['block_size'])
@@ -32,7 +32,6 @@ class gpt2:
         max_iters = int(config['max_iters'])
         lr_decay_iters = int(config['lr_decay_iters'])
         weight_decay = config['weight_decay']
-        seed = int(config(['seed']))
         
 
         # Generate the YAML configuration file
@@ -46,8 +45,7 @@ class gpt2:
             'eval_interval': 1000,
             'eval_iters': 200,
             'log_interval': 10,
-            'weight_decay': weight_decay,
-            'seed':seed
+            'weight_decay': weight_decay
         }
 
 
@@ -108,7 +106,7 @@ if __name__ == "__main__":
         info = smac.ask()
         assert info.seed is not None
         print(i, 'info')
-        cost = model.train(config=info.config, seed=info.seed)
+        cost = model.train(config=info.config)
         print(i, 'cost')
         value = TrialValue(cost=cost, time=0.5)
         print(i, 'value')
