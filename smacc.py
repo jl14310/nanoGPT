@@ -21,7 +21,7 @@ class gpt2:
         weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
         lr_decay_iters = Constant('lr_decay_iters',20)#5000)
         seed = Constant('seed',self.seed)
-        cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay])
+        cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
         return cs
 
 
