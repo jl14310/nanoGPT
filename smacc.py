@@ -25,7 +25,7 @@ class gpt2:
         return cs
 
 
-    def train(self,config:Configuration):
+    def train(self,config:Configuration,seed:int):
     # Convert the hyperparameters to their appropriate types
         batch_size = int(config['batch_size'])
         block_size = int(config['block_size'])
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # Now we use SMAC to find the best hyperparameters
     smac = HyperparameterOptimizationFacade(  
         scenario,
-        model.train(seed),
+        model.train,
         intensifier=intensifier,
         initial_design=initial,
         overwrite=True,
