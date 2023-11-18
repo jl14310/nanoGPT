@@ -53,7 +53,7 @@ class gpt2:
 
 
         config_content = ''.join(['{name} = {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
-        config_file_content = f'include "default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
+        config_file_content = f'include "../default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
         
         print(config_content)
         with open(f'config_files/config_{seed}.conf', 'w') as f:
