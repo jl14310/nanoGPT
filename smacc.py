@@ -95,7 +95,7 @@ if __name__ == "__main__":
     )
     print('set up: intensifier')
     # Now we use SMAC to find the best hyperparameters
-    smac = HyperparameterOptimizationFacade( #random forest  BlackBoxFacade is bayesian 
+    smac = HyperparameterOptimizationFacade(  
         initial_design=initial,
         scenario,
         model.train,
