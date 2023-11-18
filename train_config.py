@@ -505,6 +505,13 @@ def wandb_log(losses, iter_num, lr, running_mfu):
         "mfu": running_mfu * 100,  # convert to percentage
     })
 
+
+def tensor_to_serializable(obj):
+    if isinstance(obj, torch.Tensor):
+        # Convert tensors to lists or numbers
+        return obj.tolist() if obj.ndim > 0 else obj.item()
+    return obj
+  
 def write_results(file, hyperparameters, runtime, accuracies):
     dictionary = {}
     if os.path.isfile(file):
