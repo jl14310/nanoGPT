@@ -57,7 +57,7 @@ class gpt2:
         print(config_content)
         with open(f'config_{seed}.conf', 'w') as f:
             f.write(config_file_content)
-        command = ['python', 'train_config.py', '-f','temp_config.conf','-c',f'seed={seed}']
+        command = ['python', 'train_config.py', '-f',f'config_{seed}.conf','-c',f'seed={seed}']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
