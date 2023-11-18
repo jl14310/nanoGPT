@@ -84,7 +84,7 @@ if __name__ == "__main__":
     print('set up: model')
 
     # Scenario object
-    scenario = Scenario(model.configspace, deterministic=False, n_trials=100)
+    scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
     print('set up: scenario')
     initial = RandomInitialDesign(scenario, config=8)
     
