@@ -6,7 +6,7 @@ from smac.runhistory.dataclasses import TrialValue
 import argparse
 import subprocess
 import json
-
+import os 
 class gpt2:
     def __init__(self, seed):
         self.seed = seed
@@ -64,6 +64,8 @@ class gpt2:
 
         # Read the evaluation score from the subprocess output
         results = None
+        
+        os.makedirs(os.path.dirname(f'bayesian_results/results_{seed}.json'), exist_ok=True)
         with open(f'bayesian_results/results_{seed}.json') as f:
             results = json.load(f)
             # print(results)
