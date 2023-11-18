@@ -50,7 +50,7 @@ def define_parser(parser):
                         help="configuration file if presents overwrite default")
     parser.add_argument("-c", "--config", type=str, nargs="*",
                         help="individual config key=value, if presents overwrite config file values")
-
+    
 
 def parse_args():
     parser = argparse.ArgumentParser(description="nanGPT")
@@ -531,9 +531,13 @@ def write_results(file, hyperparameters, runtime, accuracies):
 
 def main():
     conf = load_config()
+    print(conf)
+    seed = conf.get_int("seed")
+    print('--------seed----------',seed)
+
     assert len(conf) > 0, "no configuration provided"
     train(conf)
-    write_results('results.json', config, t_total, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
+    write_results(f'results_{seed}.json', config, t_total, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
 
 
 if __name__ == "__main__":
