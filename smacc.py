@@ -1,6 +1,7 @@
 from ConfigSpace import Constant, Configuration, ConfigurationSpace, Float,Integer, Categorical, Normal
 
 from smac import HyperparameterOptimizationFacade, Scenario
+from smac.initial_design import RandomInitialDesign
 from smac.runhistory.dataclasses import TrialValue
 import argparse
 import subprocess
@@ -82,8 +83,7 @@ if __name__ == "__main__":
     seed = args.seed
 
     model = gpt2(seed)
-    print('set up: model')
-    print(seed,type(seed))
+    
     # Scenario object
     scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
     print('set up: scenario')
