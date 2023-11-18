@@ -56,15 +56,15 @@ class gpt2:
         config_file_content = f'include "default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
         
         print(config_content)
-        with open(f'config_{seed}.conf', 'w') as f:
+        with open(f'config_files/config_{seed}.conf', 'w') as f:
             f.write(config_file_content)
-        command = ['python', 'train_config.py', '-f',f'config_{seed}.conf','-c',f'seed={seed}']
+        command = ['python', 'train_config.py', '-f',f'config_files/config_{seed}.conf','-c',f'seed={seed}']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
         # Read the evaluation score from the subprocess output
         results = None
-        with open(f'results_{seed}.json') as f:
+        with open(f'bayesian_results/results_{seed}.json') as f:
             results = json.load(f)
             # print(results)
         evaluation_score = float(results['best_val_loss'][-1])
