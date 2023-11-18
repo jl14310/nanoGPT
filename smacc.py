@@ -6,6 +6,7 @@ from smac.runhistory.dataclasses import TrialValue
 import argparse
 import subprocess
 import json
+import os
 
 class gpt2:
     def __init__(self, seed):
