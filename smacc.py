@@ -6,7 +6,6 @@ from smac.runhistory.dataclasses import TrialValue
 import argparse
 import subprocess
 import json
-import os
 
 class gpt2:
     def __init__(self, seed):
@@ -57,7 +56,6 @@ class gpt2:
         config_file_content = f'include "default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
         
         print(config_content)
-        os.makedirs('config_files', exist_ok=True)
         with open(f'config_files/config_{seed}.conf', 'w') as f:
             f.write(config_file_content)
         command = ['python', 'train_config.py', '-f',f'config_files/config_{seed}.conf','-c',f'seed={seed}']
