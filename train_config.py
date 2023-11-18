@@ -277,6 +277,7 @@ def train(conf: ConfigTree):
 
     if ddp:
         destroy_process_group()
+    return best_val_loss, iter_num
 
 
 def get_batch(split, train_data1, val_data1, conf):
@@ -537,8 +538,7 @@ def main():
     assert len(conf) > 0, "no configuration provided"
   
     start_time = time.time()
-    train(conf)
-    
+    best_val_loss, iter_num = train(conf)
     write_results(f'results_{seed}.json', conf, time.time()-start_time, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
 
 
