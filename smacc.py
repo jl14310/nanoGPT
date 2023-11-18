@@ -96,10 +96,10 @@ if __name__ == "__main__":
     print('set up: intensifier')
     # Now we use SMAC to find the best hyperparameters
     smac = HyperparameterOptimizationFacade(  
-        initial_design=initial,
         scenario,
         model.train,
         intensifier=intensifier,
+        initial_design=initial,
         overwrite=True,
     )
     print('set up: smac')
