@@ -3,6 +3,11 @@ from ConfigSpace import Constant, Configuration, ConfigurationSpace, Float,Integ
 from smac import HyperparameterOptimizationFacade, Scenario
 from smac.initial_design import RandomInitialDesign
 from smac.runhistory.dataclasses import TrialValue
+
+from smac.runhistory.runhistory import RunHistory
+from smac.scenario.scenario import Scenario
+from smac.intensification.intensification import Intensifier
+
 import argparse
 import subprocess
 import json
@@ -76,21 +81,21 @@ class gpt2:
 
         return evaluation_score 
 
-
-def save_state(smac, index, seed):
-    directory = f'state_files/seed_{seed}'
-    os.makedirs(directory, exist_ok=True)  # Create the directory if it doesn't exist
-    with open(f'{directory}/state_{seed}_{index}.pkl', 'wb') as f:
-        pickle.dump(smac, f)
-
-def load_state(seed, index):
-    state_file = f'state_files/seed_{seed}/state_{seed}_{index}.pkl'
-    if os.path.exists(state_file):
-        with open(state_file, 'rb') as f:
-            return pickle.load(f)
+def save_state(smac, directory):
+    os.makedirs(directory, exist_ok=True)
+    smac.save_scenario(directory)
+    smac.save_runhistory(directory)
+    smac.save_intensifier(directory)
+    
+def load_state(directory):
+    if os.path.exists(directory):
+        scenario = Scenario.load(os.path.join(directory, "scenario.json"))
+        runhistory = RunHistory.load_json(os.path.join(directory, "runhistory.json"), scenario.cs)
+        intensifier = Intensifier.load(os.path.join(directory, "intensifier.json"))
+        return scenario, runhistory, intensifier
     else:
-        print('state file not found')
-    return None
+        print('State directory not found')
+        return None, None, None
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
@@ -101,37 +106,45 @@ if __name__ == "__main__":
     # Now you can use args.seed to set your seed
     seed = args.seed
     index = args.index
-
+    
     model = gpt2(seed)
-    smac = load_state(seed, index - 1)  # Load the state from the previous run
-    if smac is None:
-      # Scenario object
-      scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
-      print('set up: scenario')
-      initial = RandomInitialDesign(scenario, n_configs=8)
-      
-      intensifier = HyperparameterOptimizationFacade.get_intensifier(
-          scenario,
-          max_config_calls=1,  # We basically use one seed per config only
-      )
-      print('set up: intensifier')
-  
-      smac = HyperparameterOptimizationFacade(  
-        scenario,
-        model.train,
-        intensifier=intensifier,
-        initial_design=initial,
-        overwrite=True,
-      )
-      print('set up: smac 1st time')
-    else:  
-      print('set up: smac loaded previous',index)
+    
+    state_dir = f'state_files/seed_{seed}'
+    scenario, runhistory, intensifier = load_state(state_dir)
+    
+    if scenario is not None and runhistory is not None and intensifier is not None:
+        # Load SMAC with the saved state
+        smac = HyperparameterOptimizationFacade(
+            scenario=scenario,
+            tae_runner=model.train,
+            runhistory=runhistory,
+            intensifier=intensifier,
+            initial_design=None,
+            initial_configurations=None,
+            acq_optimizer_kwargs=None
+        )
+        print('set up: smac loaded previous',index)
+    else:
+        # Initialize SMAC for the first time
+        scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
+        initial = RandomInitialDesign(scenario, n_configs=8)
+        intensifier = HyperparameterOptimizationFacade.get_intensifier(
+            scenario,
+            max_config_calls=1
+        )
+        smac = HyperparameterOptimizationFacade(
+            scenario,
+            model.train,
+            intensifier=intensifier,
+            initial_design=initial,
+            overwrite=True
+        )
+        print('set up: smac 1st time')
     
     info = smac.ask()
     cost = model.train(config=info.config, seed=info.seed)
     value = TrialValue(cost=cost, time=0.5)
     smac.tell(info, value)
-
-    save_state(smac, index, seed)
-
+    
+    save_state(smac, state_dir)
 
