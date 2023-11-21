@@ -114,8 +114,9 @@ if __name__ == "__main__":
         #saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
         saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, 'scenario.json'))
         smac = HyperparameterOptimizationFacade(
-            scenario=saved_scenario,
-            model.train
+            saved_scenario,
+            model.train,
+            overwrite=True
         )
         print('set up: smac loaded previous',index)
     else:
