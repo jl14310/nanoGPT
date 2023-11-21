@@ -80,29 +80,14 @@ class gpt2:
 
         return evaluation_score 
 
-def load_state(directory,seed,index):
-    runhistory_file = os.path.join(directory, f'runhistory_{seed}.json')
-    scenario_file = os.path.join(directory, f'scenario_{seed}.json')
-    
-    if os.path.exists(runhistory_file) and os.path.exists(scenario_file):
-        # Load RunHistory
-        runhistory = RunHistory()
-        runhistory.load_json(runhistory_file)
 
-        # Load Scenario
-        scenario = Scenario.load(directory)
-
-        return runhistory, scenario
-    else:
-        print('State files not found')
-        return None, None
-
+from pathlib import Path
 
 def load_json_from_unknown_directory(base_directory, target_file_name):
     for dirpath, dirnames, filenames in os.walk(base_directory):
         if target_file_name in filenames:
             print(dirpath)
-            return dirpath
+            return Path(dirpath)
     print('not found')
     return None
     
@@ -122,18 +107,19 @@ if __name__ == "__main__":
     state_dir = f'state_files/seed_{seed}_index_{index-1}'
     dir_path = load_json_from_unknown_directory(state_dir, 'runhistory.json')
     if dir_path is not None:
+        print('is not None')
         # Load SMAC with the saved state
-        saved_runhistory = Scenario.load(dir_path)
-        saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
+        #saved_configspace = Scenario.load(
+        #saved_runhistory = Scenario.load(dir_path, )
+        #saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
         saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, 'scenario.json'))
         smac = HyperparameterOptimizationFacade(
             scenario=saved_scenario,
-            tae_runner=model.train,
-            runhistory=saved_runhistory,
-            intensifier=saved_intensifier
+            tae_runner=model.train
         )
         print('set up: smac loaded previous',index)
     else:
+        
         # Initialize SMAC for the first time
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}_index_{index}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
