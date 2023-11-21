@@ -78,7 +78,9 @@ class gpt2:
 
 
 def save_state(smac, index, seed):
-    with open(f'state_files/seed_{seed}/state_{seed}_{index}.pkl', 'wb') as f:
+    directory = f'state_files/seed_{seed}'
+    os.makedirs(directory, exist_ok=True)  # Create the directory if it doesn't exist
+    with open(f'{directory}/state_{seed}_{index}.pkl', 'wb') as f:
         pickle.dump(smac, f)
 
 def load_state(seed, index):
