@@ -117,8 +117,7 @@ if __name__ == "__main__":
     model = gpt2(seed)
     
     state_dir = f'state_files/seed_{seed}'
-    dir_path = find_newest_directory(state_dir)
-    if index > 1 and dir_path is not None:
+    if index > 1 and find_newest_directory(state_dir) is not None:
         print('is not None')
         # Load SMAC with the saved state
         #saved_configspace = Scenario.load(
