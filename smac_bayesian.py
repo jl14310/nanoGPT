@@ -76,11 +76,11 @@ class gpt2:
 
 
 def save_state(smac, index, seed):
-    with open(f'state_files/state_{seed}_{index}.pkl', 'wb') as f:
+    with open(f'state_files/seed_{seed}/state_{seed}_{index}.pkl', 'wb') as f:
         pickle.dump(smac, f)
 
 def load_state(seed, index):
-    state_file = f'state_files/state_{seed}_{index}.pkl'
+    state_file = f'state_files/seed_{seed}/state_{seed}_{index}.pkl'
     if os.path.exists(state_file):
         with open(state_file, 'rb') as f:
             return pickle.load(f)
