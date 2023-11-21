@@ -7,6 +7,8 @@ import argparse
 import subprocess
 import json
 import os 
+import pickle 
+
 class gpt2:
     def __init__(self, seed):
         self.seed = seed
