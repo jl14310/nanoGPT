@@ -115,7 +115,7 @@ if __name__ == "__main__":
         saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, 'scenario.json'))
         smac = HyperparameterOptimizationFacade(
             scenario=saved_scenario,
-            tae_runner=model.train
+            model.train
         )
         print('set up: smac loaded previous',index)
     else:
