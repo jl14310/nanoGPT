@@ -84,6 +84,8 @@ def load_state(seed, index):
     if os.path.exists(state_file):
         with open(state_file, 'rb') as f:
             return pickle.load(f)
+    else:
+        print('state file not found')
     return None
 
 if __name__ == "__main__":
