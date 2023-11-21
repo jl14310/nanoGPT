@@ -119,10 +119,6 @@ if __name__ == "__main__":
     state_dir = f'state_files/seed_{seed}'
     if index > 1 and find_newest_directory(state_dir) is not None:
         print('is not None')
-        # Load SMAC with the saved state
-        #saved_configspace = Scenario.load(
-        #saved_runhistory = Scenario.load(dir_path, )
-        #saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
         saved_scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
         smac = HyperparameterOptimizationFacade(
             saved_scenario,
