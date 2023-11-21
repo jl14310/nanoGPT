@@ -80,18 +80,9 @@ class gpt2:
 
         return evaluation_score 
 
-def save_state(smac, directory, seed):
-    os.makedirs(directory, exist_ok=True)
-    # Save RunHistory
-    runhistory_file = os.path.join(directory, "runhistory_{seed}.json")
-    smac.runhistory.save(runhistory_file)
-
-    # Save Scenario
-    smac.scenario.save()
-    
-def load_state(directory,seed):
-    runhistory_file = os.path.join(directory, "runhistory_{seed}.json")
-    scenario_file = os.path.join(directory, "scenario_{seed}.json")
+def load_state(directory,seed,index):
+    runhistory_file = os.path.join(directory, f'runhistory_{seed}.json')
+    scenario_file = os.path.join(directory, f'scenario_{seed}.json')
     
     if os.path.exists(runhistory_file) and os.path.exists(scenario_file):
         # Load RunHistory
@@ -107,6 +98,14 @@ def load_state(directory,seed):
         return None, None
 
 
+def load_json_from_unknown_directory(base_directory, target_file_name):
+    for dirpath, dirnames, filenames in os.walk(base_directory):
+        if target_file_name in filenames:
+            return os.path.basename(dirpath)
+    print('not found')
+    return None
+    
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
@@ -119,22 +118,18 @@ if __name__ == "__main__":
     
     model = gpt2(seed)
     
-    state_dir = f'state_files/seed_{seed}'
-    saved_runhistory, saved_scenario = load_state(state_dir, seed)
+    state_dir = f'state_files/seed_{seed}_index_{index}'
+    saved_runhistory = Scenario.load(load_json_from_unknown_directory(state_dir,f'runhistory_{seed}.json'))
+    saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir,f'intensifier_{seed}.json'))
+    saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir,f'scenario_{seed}.json'))
+    
     if saved_runhistory is not None and saved_scenario is not None:
         # Load SMAC with the saved state
-        intensifier = HyperparameterOptimizationFacade.get_intensifier(
-            scenario,
-            max_config_calls=1
-        ) 
         smac = HyperparameterOptimizationFacade(
-            scenario=scenario,
+            scenario=saved_scenario,
             tae_runner=model.train,
-            runhistory=runhistory,
-            intensifier=intensifier,
-            initial_design=None,
-            initial_configurations=None,
-            acq_optimizer_kwargs=None
+            runhistory=saved_runhistory,
+            intensifier=saved_intensifier
         )
         print('set up: smac loaded previous',index)
     else:
@@ -159,5 +154,5 @@ if __name__ == "__main__":
     value = TrialValue(cost=cost, time=0.5)
     smac.tell(info, value)
     
-    save_state(smac, state_dir,seed)
+    smac.scenario.save()
 
