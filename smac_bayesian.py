@@ -87,14 +87,22 @@ def save_state(smac, directory):
     smac.save_intensifier(directory)
     
 def load_state(directory):
-    if os.path.exists(directory):
-        scenario = Scenario.load(os.path.join(directory, "scenario.json"))
-        runhistory = RunHistory.load_json(os.path.join(directory, "runhistory.json"), scenario.cs)
-        intensifier = Intensifier.load(os.path.join(directory, "intensifier.json"))
-        return scenario, runhistory, intensifier
+    runhistory_file = os.path.join(directory, "runhistory.json")
+    scenario_file = os.path.join(directory, "scenario.json")
+    
+    if os.path.exists(runhistory_file) and os.path.exists(scenario_file):
+        # Load RunHistory
+        runhistory = RunHistory()
+        runhistory.load_json(runhistory_file)
+
+        # Load Scenario
+        scenario = Scenario.load(scenario_file)
+
+        return runhistory, scenario
     else:
-        print('State directory not found')
-        return None, None, None
+        print('State files not found')
+        return None, None
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
@@ -109,10 +117,13 @@ if __name__ == "__main__":
     model = gpt2(seed)
     
     state_dir = f'state_files/seed_{seed}'
-    scenario, runhistory, intensifier = load_state(state_dir)
-    
-    if scenario is not None and runhistory is not None and intensifier is not None:
+    saved_runhistory, saved_scenario = load_state(state_dir)
+    if saved_runhistory is not None and saved_scenario is not None:
         # Load SMAC with the saved state
+        intensifier = HyperparameterOptimizationFacade.get_intensifier(
+            scenario,
+            max_config_calls=1
+        ) 
         smac = HyperparameterOptimizationFacade(
             scenario=scenario,
             tae_runner=model.train,
