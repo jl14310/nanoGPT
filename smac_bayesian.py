@@ -119,7 +119,7 @@ if __name__ == "__main__":
     
     model = gpt2(seed)
     
-    state_dir = f'state_files/seed_{seed}_index_{index}'
+    state_dir = f'state_files/seed_{seed}_index_{index-1}'
     dir_path = load_json_from_unknown_directory(state_dir, f'runhistory_{seed}.json')
     if dir_path is not None:
         # Load SMAC with the saved state
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         print('set up: smac loaded previous',index)
     else:
         # Initialize SMAC for the first time
-        scenario = Scenario(model.configspace, deterministic=False, output_directory=state_dir, n_trials=100, seed=seed)
+        scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}_index_{index}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
             scenario,
