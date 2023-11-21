@@ -80,20 +80,18 @@ class gpt2:
 
         return evaluation_score 
 
-def save_state(smac, directory):
+def save_state(smac, directory, seed):
     os.makedirs(directory, exist_ok=True)
-    
     # Save RunHistory
-    runhistory_file = os.path.join(directory, "runhistory.json")
+    runhistory_file = os.path.join(directory, "runhistory_{seed}.json")
     smac.runhistory.save(runhistory_file)
 
     # Save Scenario
-    scenario_file = os.path.join(directory, "scenario.json")
-    smac.scenario.save(scenario_file)
+    smac.scenario.save()
     
-def load_state(directory):
-    runhistory_file = os.path.join(directory, "runhistory.json")
-    scenario_file = os.path.join(directory, "scenario.json")
+def load_state(directory,seed):
+    runhistory_file = os.path.join(directory, "runhistory_{seed}.json")
+    scenario_file = os.path.join(directory, "scenario_{seed}.json")
     
     if os.path.exists(runhistory_file) and os.path.exists(scenario_file):
         # Load RunHistory
@@ -101,7 +99,7 @@ def load_state(directory):
         runhistory.load_json(runhistory_file)
 
         # Load Scenario
-        scenario = Scenario.load(scenario_file)
+        scenario = Scenario.load(directory)
 
         return runhistory, scenario
     else:
@@ -141,7 +139,7 @@ if __name__ == "__main__":
         print('set up: smac loaded previous',index)
     else:
         # Initialize SMAC for the first time
-        scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
+        scenario = Scenario(model.configspace, deterministic=False, output_directory=state_dir ,n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
             scenario,
