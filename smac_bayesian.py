@@ -90,7 +90,19 @@ def load_json_from_unknown_directory(base_directory, target_file_name):
             return Path(dirpath)
     print('not found')
     return None
-    
+
+
+def find_newest_directory(base_directory):
+    base_path = Path(base_directory)
+    directories = [d for d in base_path.iterdir() if d.is_dir()]
+
+    if not directories:
+        return None
+
+    newest_dir = max(directories, key=lambda d: d.stat().st_ctime)
+    print(newest_dir)
+    return newest_dir
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
@@ -104,16 +116,15 @@ if __name__ == "__main__":
     
     model = gpt2(seed)
     
-    state_dir = f'state_files/seed_{seed}_index_{index-1}'
-    dir_path = load_json_from_unknown_directory(state_dir, 'runhistory.json')
+    state_dir = f'state_files/seed_{seed}'
+    dir_path = find_newest_directory(state_dir)
     if index > 1 and dir_path is not None:
         print('is not None')
         # Load SMAC with the saved state
         #saved_configspace = Scenario.load(
         #saved_runhistory = Scenario.load(dir_path, )
         #saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
-        saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, 'scenario.json'))
-        saved_scenario.output_directory = f'state_files/seed_{seed}_index_{index}'
+        saved_scenario = Scenario.load(find_newest_directory(state_dir) / 'scenario.json'))
         smac = HyperparameterOptimizationFacade(
             saved_scenario,
             model.train,
@@ -122,7 +133,7 @@ if __name__ == "__main__":
         print('set up: smac loaded previous',index)
     else:
         # Initialize SMAC for the first time
-        scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}_index_{index}', n_trials=100, seed=seed)
+        scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
             scenario,
