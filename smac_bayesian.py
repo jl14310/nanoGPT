@@ -106,13 +106,14 @@ if __name__ == "__main__":
     
     state_dir = f'state_files/seed_{seed}_index_{index-1}'
     dir_path = load_json_from_unknown_directory(state_dir, 'runhistory.json')
-    if dir_path is not None:
+    if index > 1 and dir_path is not None:
         print('is not None')
         # Load SMAC with the saved state
         #saved_configspace = Scenario.load(
         #saved_runhistory = Scenario.load(dir_path, )
         #saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
         saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, 'scenario.json'))
+        saved_scenario.output_directory = f'state_files/seed_{seed}_index_{index}'
         smac = HyperparameterOptimizationFacade(
             saved_scenario,
             model.train,
@@ -120,7 +121,6 @@ if __name__ == "__main__":
         )
         print('set up: smac loaded previous',index)
     else:
-        
         # Initialize SMAC for the first time
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}_index_{index}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
