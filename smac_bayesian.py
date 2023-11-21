@@ -5,7 +5,6 @@ from smac.initial_design import RandomInitialDesign
 from smac.runhistory.dataclasses import TrialValue
 
 from smac.runhistory.runhistory import RunHistory
-from smac.scenario.scenario import Scenario
 from smac.intensification.intensification import Intensifier
 
 import argparse
