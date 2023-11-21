@@ -120,7 +120,7 @@ if __name__ == "__main__":
     model = gpt2(seed)
     
     state_dir = f'state_files/seed_{seed}'
-    saved_runhistory, saved_scenario = load_state(state_dir)
+    saved_runhistory, saved_scenario = load_state(state_dir, seed)
     if saved_runhistory is not None and saved_scenario is not None:
         # Load SMAC with the saved state
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
@@ -159,5 +159,5 @@ if __name__ == "__main__":
     value = TrialValue(cost=cost, time=0.5)
     smac.tell(info, value)
     
-    save_state(smac, state_dir)
+    save_state(smac, state_dir,seed)
 
