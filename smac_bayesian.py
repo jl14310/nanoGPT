@@ -120,12 +120,12 @@ if __name__ == "__main__":
     model = gpt2(seed)
     
     state_dir = f'state_files/seed_{seed}_index_{index-1}'
-    dir_path = load_json_from_unknown_directory(state_dir, f'runhistory_{seed}.json')
+    dir_path = load_json_from_unknown_directory(state_dir, 'runhistory.json')
     if dir_path is not None:
         # Load SMAC with the saved state
         saved_runhistory = Scenario.load(dir_path)
-        saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, f'intensifier_{seed}.json'))
-        saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, f'scenario_{seed}.json'))
+        saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
+        saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, 'scenario.json'))
         smac = HyperparameterOptimizationFacade(
             scenario=saved_scenario,
             tae_runner=model.train,
