@@ -121,7 +121,7 @@ if __name__ == "__main__":
     
     state_dir = f'state_files/seed_{seed}_index_{index}'
     dir_path = load_json_from_unknown_directory(state_dir, f'runhistory_{seed}.json')
-    if dir_name is not None:
+    if dir_path is not None:
         # Load SMAC with the saved state
         saved_runhistory = Scenario.load(dir_path)
         saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, f'intensifier_{seed}.json'))
