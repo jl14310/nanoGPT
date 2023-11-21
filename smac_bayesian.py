@@ -23,9 +23,9 @@ class gpt2:
         batch_size = Integer('batch_size',(8,13),default = 12)
         block_size = Constant('block_size',1024)
         learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-        max_iters = Constant('max_iters',10)#5000)
+        max_iters = Constant('max_iters',5)#5000)
         weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-        lr_decay_iters = Constant('lr_decay_iters',10)#5000)
+        lr_decay_iters = Constant('lr_decay_iters',5)#5000)
         seed = Constant('seed',self.seed)
         cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
         return cs
@@ -82,9 +82,14 @@ class gpt2:
 
 def save_state(smac, directory):
     os.makedirs(directory, exist_ok=True)
-    smac.save_scenario(directory)
-    smac.save_runhistory(directory)
-    smac.save_intensifier(directory)
+    
+    # Save RunHistory
+    runhistory_file = os.path.join(directory, "runhistory.json")
+    smac.runhistory.save(runhistory_file)
+
+    # Save Scenario
+    scenario_file = os.path.join(directory, "scenario.json")
+    smac.scenario.save(scenario_file)
     
 def load_state(directory):
     runhistory_file = os.path.join(directory, "runhistory.json")
