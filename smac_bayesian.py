@@ -124,7 +124,7 @@ if __name__ == "__main__":
         #saved_configspace = Scenario.load(
         #saved_runhistory = Scenario.load(dir_path, )
         #saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, 'intensifier.json'))
-        saved_scenario = Scenario.load(find_newest_directory(state_dir) / 'scenario.json'))
+        saved_scenario = Scenario.load(find_newest_directory(state_dir) / 'scenario.json')
         smac = HyperparameterOptimizationFacade(
             saved_scenario,
             model.train,
