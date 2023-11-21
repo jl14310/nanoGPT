@@ -101,7 +101,8 @@ def load_state(directory,seed,index):
 def load_json_from_unknown_directory(base_directory, target_file_name):
     for dirpath, dirnames, filenames in os.walk(base_directory):
         if target_file_name in filenames:
-            return os.path.basename(dirpath)
+            print(dirpath)
+            return dirpath
     print('not found')
     return None
     
@@ -119,12 +120,12 @@ if __name__ == "__main__":
     model = gpt2(seed)
     
     state_dir = f'state_files/seed_{seed}_index_{index}'
-    saved_runhistory = Scenario.load(load_json_from_unknown_directory(state_dir,f'runhistory_{seed}.json'))
-    saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir,f'intensifier_{seed}.json'))
-    saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir,f'scenario_{seed}.json'))
-    
-    if saved_runhistory is not None and saved_scenario is not None:
+    dir_path = load_json_from_unknown_directory(state_dir, f'runhistory_{seed}.json')
+    if dir_name is not None:
         # Load SMAC with the saved state
+        saved_runhistory = Scenario.load(dir_path)
+        saved_intensifier = Scenario.load(load_json_from_unknown_directory(state_dir, f'intensifier_{seed}.json'))
+        saved_scenario = Scenario.load(load_json_from_unknown_directory(state_dir, f'scenario_{seed}.json'))
         smac = HyperparameterOptimizationFacade(
             scenario=saved_scenario,
             tae_runner=model.train,
@@ -134,7 +135,7 @@ if __name__ == "__main__":
         print('set up: smac loaded previous',index)
     else:
         # Initialize SMAC for the first time
-        scenario = Scenario(model.configspace, deterministic=False, output_directory=state_dir ,n_trials=100, seed=seed)
+        scenario = Scenario(model.configspace, deterministic=False, output_directory=state_dir, n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
             scenario,
