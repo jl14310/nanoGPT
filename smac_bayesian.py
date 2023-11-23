@@ -120,10 +120,15 @@ if __name__ == "__main__":
     if index > 1 and find_newest_directory(state_dir) is not None:
         print('is not None')
         saved_scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
+        intensifier = HyperparameterOptimizationFacade.get_intensifier(
+            scenario,
+            max_config_calls=1
+        )
         smac = HyperparameterOptimizationFacade(
             saved_scenario,
             model.train,
-            overwrite=True
+            intensifier=intensifier,
+            overwrite=False
         )
         print('set up: smac loaded previous',index)
     else:
@@ -149,4 +154,22 @@ if __name__ == "__main__":
     smac.tell(info, value)
     
     smac.scenario.save()
+
+    model1 = gpt2(seed)
+    
+    state_dir = f'state_files/seed_{seed}'
+    saved_scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
+    intensifier1 = HyperparameterOptimizationFacade.get_intensifier(
+            scenario,
+            max_config_calls=1
+        )
+    smac1 = HyperparameterOptimizationFacade(
+            saved_scenario,
+            model1.train,
+            initensifier=initensifier1,
+            overwrite=False
+        )
+    assert model1.configspace==model.configspace
+    assert smac.intensifier.get_incumbent()  == smac1.intensifier.get_incumbent() 
+    print(smac.runhistory.finished,smac1.runhistory.finished)
 
