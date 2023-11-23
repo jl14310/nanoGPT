@@ -157,19 +157,24 @@ if __name__ == "__main__":
 
     model1 = gpt2(seed)
     
+    assert model1.configspace==model.configspace
+    print('model again')
     state_dir = f'state_files/seed_{seed}'
     saved_scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
+    print('saved_scenario again')
     intensifier1 = HyperparameterOptimizationFacade.get_intensifier(
             scenario,
             max_config_calls=1
         )
+    print('intensifier')
+    
+    assert intensifier.get_incumbent()  == intensifier1.get_incumbent() 
     smac1 = HyperparameterOptimizationFacade(
             saved_scenario,
             model1.train,
             intensifier=intensifier1,
             overwrite=False
         )
-    assert model1.configspace==model.configspace
-    assert smac.intensifier.get_incumbent()  == smac1.intensifier.get_incumbent() 
+    print('smac')
     print(smac.runhistory.finished,smac1.runhistory.finished)
 
