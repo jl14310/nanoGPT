@@ -166,7 +166,7 @@ if __name__ == "__main__":
     smac1 = HyperparameterOptimizationFacade(
             saved_scenario,
             model1.train,
-            initensifier=initensifier1,
+            intensifier=intensifier1,
             overwrite=False
         )
     assert model1.configspace==model.configspace
