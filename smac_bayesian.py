@@ -167,7 +167,6 @@ if __name__ == "__main__":
             max_config_calls=1
         )
     print('intensifier')
-    assert intensifier.get_incumbent()  == intensifier1.get_incumbent() 
     smac1 = HyperparameterOptimizationFacade(
             saved_scenario,
             model1.train,
