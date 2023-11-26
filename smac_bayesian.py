@@ -148,7 +148,7 @@ if __name__ == "__main__":
         scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
-        smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
+        smac = HyperparameterOptimizationFacade(scenario, model.train, output_directory=f'state_files/seed_{seed}', intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
         model = gpt2(seed)
         # Use loaded_scenario if needed for resuming
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     cost = model.train(config=info.config, seed=info.seed)
     value = TrialValue(cost=cost, time=0.5)
     smac.tell(info, value)
-
+    
     smac.scenario.save()
     
     # Save the state and exit
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     
     iteration += 1
     
-    initial_path = os.path.join(state_dir, f'initial_state_{iteration}.pkl')
+    initial_path = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
     with open(initial_path, 'rb') as f:
         reloaded_initial = pickle.load(f)
     print('reloaded initial')
