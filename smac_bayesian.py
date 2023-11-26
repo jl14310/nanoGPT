@@ -102,22 +102,21 @@ def find_newest_directory(base_directory):
     print(newest_dir)
     return newest_dir
 
-def save_state(initial, scenario, state_dir, iteration):
-    os.makedirs(state_dir, exist_ok=True)
-    with open(os.path.join(state_dir, f'smac_state_{iteration}.pkl'), 'wb') as f:
-        pickle.dump(initial, f)
-    scenario.save()
 
-def load_state(state_dir, iteration):
-    scenario_file = os.path.join(state_dir, f'scenario_{iteration}')
-    smac_file = os.path.join(state_dir, f'smac_state_{iteration}.pkl')
+def load_state(state_dir, iteration, seed):
+    initial_file = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
     
-    if os.path.exists(smac_file) and os.path.exists(scenario_file):
-        with open(smac_file, 'rb') as f:
+    if os.path.exists(initial_file):
+        with open(initial_file, 'rb') as f:
             initial = pickle.load(f)
-        scenario = Scenario.load(scenario_file)
+        print('reloaded initial')
+        scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
         return initial, scenario
     return None, None
+    
+def save_state(initial, state_dir, iteration):
+    with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
+        pickle.dump(initial, f)
     
 def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_scenario):
     # Implement custom verification logic here
@@ -137,13 +136,15 @@ if __name__ == "__main__":
     
     # Now you can use args.seed to set your seed
     seed = args.seed
-    iteration = args.index
+    #iteration = args.index
     state_dir = f'state_files/seed_{seed}'
+
     
-    smac, loaded_scenario = load_state(state_dir, iteration)
+    initial, scenario = load_state(state_dir, iteration, seed)
     
-    if smac is None and loaded_scenario is None:
+    if initial is None and scenario is None:
         # Initial setup if no saved state exists
+        print('initialized')
         model = gpt2(seed)
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
@@ -151,7 +152,17 @@ if __name__ == "__main__":
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
         model = gpt2(seed)
-        # Use loaded_scenario if needed for resuming
+        intensifier = HyperparameterOptimizationFacade.get_intensifier(
+                scenario,
+                max_config_calls=1
+            )
+        smac = HyperparameterOptimizationFacade(
+            reloaded_scenario,
+            model.train,
+            intensifier=intensifier1,
+            initial_design=reloaded_initial,
+            overwrite=False
+        )
 
     info = smac.ask()
     cost = model.train(config=info.config, seed=info.seed)
@@ -159,12 +170,13 @@ if __name__ == "__main__":
     smac.tell(info, value)
     
     smac.scenario.save()
+    save_state(initial, state_dir, iteration)
     
+    """
     # Save the state and exit
     os.makedirs(state_dir, exist_ok=True)
     with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
         pickle.dump(initial, f)
-
     
     iteration += 1
     
@@ -174,7 +186,6 @@ if __name__ == "__main__":
     print('reloaded initial')
     reloaded_scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
     print('reloaded scenario')
-    #reloaded_initial, reloaded_scenario = load_state(state_dir, iteration + 1)
     
     intensifier1 = HyperparameterOptimizationFacade.get_intensifier(
             reloaded_scenario,
@@ -192,7 +203,8 @@ if __name__ == "__main__":
         verify_loaded_state(smac, reloaded_smac, scenario, reloaded_scenario)
     else:
         print("Error: Could not reload saved state for verification.")
-
+    """
+    
     """
     model = gpt2(seed)
     
