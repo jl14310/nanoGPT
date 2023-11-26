@@ -103,6 +103,31 @@ def find_newest_directory(base_directory):
     print(newest_dir)
     return newest_dir
 
+def save_state(smac, scenario, state_dir, iteration):
+    os.makedirs(state_dir, exist_ok=True)
+    with open(os.path.join(state_dir, f'smac_state_{iteration}.pkl'), 'wb') as f:
+        pickle.dump(smac, f)
+    scenario.save(os.path.join(state_dir, f'scenario_{iteration}'))
+
+def load_state(state_dir, iteration):
+    scenario_file = os.path.join(state_dir, f'scenario_{iteration}')
+    smac_file = os.path.join(state_dir, f'smac_state_{iteration}.pkl')
+    
+    if os.path.exists(smac_file) and os.path.exists(scenario_file):
+        with open(smac_file, 'rb') as f:
+            smac = pickle.load(f)
+        scenario = Scenario.load(scenario_file)
+        return smac, scenario
+    return None, None
+def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_scenario):
+    # Implement custom verification logic here
+    # Example:
+    if original_smac.runhistory != loaded_smac.runhistory:
+        print("Warning: Run histories do not match.")
+    if original_scenario != loaded_scenario:
+        print("Warning: Scenarios do not match.")
+    # Add other necessary checks
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
@@ -112,8 +137,38 @@ if __name__ == "__main__":
     
     # Now you can use args.seed to set your seed
     seed = args.seed
-    index = args.index
+    iteration = args.index
+    state_dir = f'state_files/seed_{seed}'
     
+    smac, loaded_scenario = load_state(state_dir, iteration)
+    
+    if smac is None and loaded_scenario is None:
+        # Initial setup if no saved state exists
+        model = gpt2(seed)
+        scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
+        initial = RandomInitialDesign(scenario, n_configs=8)
+        intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
+        smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
+    else:
+        model = gpt2(seed)
+        # Use loaded_scenario if needed for resuming
+
+    info = smac.ask()
+    cost = model.train(config=info.config, seed=info.seed)
+    value = TrialValue(cost=cost, time=0.5)
+    smac.tell(info, value)
+
+    
+    # Save the state and exit
+    save_state(smac, scenario, state_dir, iteration + 1)
+
+    reloaded_smac, reloaded_scenario = load_state(state_dir, iteration + 1)
+    if reloaded_smac is not None and reloaded_scenario is not None:
+        verify_loaded_state(smac, reloaded_smac, scenario, reloaded_scenario)
+    else:
+        print("Error: Could not reload saved state for verification.")
+
+    """
     model = gpt2(seed)
     
     state_dir = f'state_files/seed_{seed}'
@@ -171,8 +226,9 @@ if __name__ == "__main__":
             saved_scenario,
             model1.train,
             intensifier=intensifier1,
+            initial_design=
             overwrite=False
         )
     print('smac')
     print(smac.runhistory.finished,smac1.runhistory.finished)
-
+    """
