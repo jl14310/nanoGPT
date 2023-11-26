@@ -136,7 +136,7 @@ if __name__ == "__main__":
     
     # Now you can use args.seed to set your seed
     seed = args.seed
-    #iteration = args.index
+    iteration = args.index
     state_dir = f'state_files/seed_{seed}'
 
     
