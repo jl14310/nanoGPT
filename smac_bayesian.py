@@ -91,7 +91,6 @@ def load_json_from_unknown_directory(base_directory, target_file_name):
     print('not found')
     return None
 
-
 def find_newest_directory(base_directory):
     base_path = Path(base_directory)
     directories = [d for d in base_path.iterdir() if d.is_dir()]
@@ -107,7 +106,7 @@ def save_state(initial, scenario, state_dir, iteration):
     os.makedirs(state_dir, exist_ok=True)
     with open(os.path.join(state_dir, f'smac_state_{iteration}.pkl'), 'wb') as f:
         pickle.dump(initial, f)
-    scenario.save(os.path.join(state_dir, f'scenario_{iteration}'))
+    scenario.save()
 
 def load_state(state_dir, iteration):
     scenario_file = os.path.join(state_dir, f'scenario_{iteration}')
@@ -160,14 +159,28 @@ if __name__ == "__main__":
     smac.tell(info, value)
 
     smac.scenario.save()
-    # Save the state and exit
-    save_state(initial, scenario, state_dir, iteration + 1)
     
-    reloaded_initial, reloaded_scenario = load_state(state_dir, iteration + 1)
+    # Save the state and exit
+    os.makedirs(state_dir, exist_ok=True)
+    with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
+        pickle.dump(initial, f)
+
+    
+    iteration += 1
+    
+    initial_path = os.path.join(state_dir, f'initial_state_{iteration}.pkl')
+    with open(initial_path, 'rb') as f:
+        reloaded_initial = pickle.load(f)
+    print('reloaded initial')
+    reloaded_scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
+    print('reloaded scenario')
+    #reloaded_initial, reloaded_scenario = load_state(state_dir, iteration + 1)
+    
     intensifier1 = HyperparameterOptimizationFacade.get_intensifier(
             reloaded_scenario,
             max_config_calls=1
         )
+    
     reloaded_smac = HyperparameterOptimizationFacade(
         reloaded_scenario,
         model.train,
