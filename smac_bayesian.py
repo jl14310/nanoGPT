@@ -145,10 +145,10 @@ if __name__ == "__main__":
     if smac is None and loaded_scenario is None:
         # Initial setup if no saved state exists
         model = gpt2(seed)
-        scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
+        scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=8)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
-        smac = HyperparameterOptimizationFacade(scenario, model.train, output_directory=f'state_files/seed_{seed}', intensifier=intensifier, initial_design=initial, overwrite=True)
+        smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
         model = gpt2(seed)
         # Use loaded_scenario if needed for resuming
