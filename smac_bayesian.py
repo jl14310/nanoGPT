@@ -103,10 +103,10 @@ def find_newest_directory(base_directory):
     print(newest_dir)
     return newest_dir
 
-def save_state(smac, scenario, state_dir, iteration):
+def save_state(initial, scenario, state_dir, iteration):
     os.makedirs(state_dir, exist_ok=True)
     with open(os.path.join(state_dir, f'smac_state_{iteration}.pkl'), 'wb') as f:
-        pickle.dump(smac, f)
+        pickle.dump(initial, f)
     scenario.save(os.path.join(state_dir, f'scenario_{iteration}'))
 
 def load_state(state_dir, iteration):
@@ -115,10 +115,11 @@ def load_state(state_dir, iteration):
     
     if os.path.exists(smac_file) and os.path.exists(scenario_file):
         with open(smac_file, 'rb') as f:
-            smac = pickle.load(f)
+            initial = pickle.load(f)
         scenario = Scenario.load(scenario_file)
-        return smac, scenario
+        return initial, scenario
     return None, None
+    
 def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_scenario):
     # Implement custom verification logic here
     # Example:
@@ -158,11 +159,22 @@ if __name__ == "__main__":
     value = TrialValue(cost=cost, time=0.5)
     smac.tell(info, value)
 
-    
+    smac.scenario.save()
     # Save the state and exit
-    save_state(smac, scenario, state_dir, iteration + 1)
-
-    reloaded_smac, reloaded_scenario = load_state(state_dir, iteration + 1)
+    save_state(initial, scenario, state_dir, iteration + 1)
+    
+    reloaded_initial, reloaded_scenario = load_state(state_dir, iteration + 1)
+    intensifier1 = HyperparameterOptimizationFacade.get_intensifier(
+            reloaded_scenario,
+            max_config_calls=1
+        )
+    reloaded_smac = HyperparameterOptimizationFacade(
+        reloaded_scenario,
+        model.train,
+        intensifier=intensifier1,
+        initial_design=reloaded_initial,
+        overwrite=False
+    )
     if reloaded_smac is not None and reloaded_scenario is not None:
         verify_loaded_state(smac, reloaded_smac, scenario, reloaded_scenario)
     else:
