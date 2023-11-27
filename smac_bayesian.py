@@ -3,6 +3,7 @@ from ConfigSpace import Constant, Configuration, ConfigurationSpace, Float,Integ
 from smac import HyperparameterOptimizationFacade, Scenario, Callback
 from smac.initial_design import RandomInitialDesign, SobolInitialDesign
 from smac.runhistory.dataclasses import TrialValue
+from smac.main.smbo import SMBO
 
 from smac.runhistory.runhistory import RunHistory
 from smac.intensifier.intensifier import Intensifier
