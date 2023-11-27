@@ -112,7 +112,8 @@ def load_state(state_dir, iteration, seed):
         print('reloaded initial')
         scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
         return initial, scenario
-    return None, None
+    else:
+        return None, None
     
 def save_state(initial, state_dir, iteration):
     with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
@@ -142,7 +143,7 @@ if __name__ == "__main__":
     
     initial, scenario = load_state(state_dir, iteration, seed)
     
-    if initial is None and scenario is None:
+    if initial is None:
         # Initial setup if no saved state exists
         print('initialized')
         model = gpt2(seed)
