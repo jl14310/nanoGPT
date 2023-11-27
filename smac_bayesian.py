@@ -153,6 +153,7 @@ if __name__ == "__main__":
     else:
         model = gpt2(seed)
         n_configs = max(0,9-iteration)
+        print(iteration, n_configs)
         initial = RandomInitialDesign(scenario, n_configs=n_configs)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
                 scenario,
