@@ -1,6 +1,6 @@
 from ConfigSpace import Constant, Configuration, ConfigurationSpace, Float,Integer, Categorical, Normal
 
-from smac import HyperparameterOptimizationFacade, Scenario
+from smac import HyperparameterOptimizationFacade, Scenario, Callback
 from smac.initial_design import RandomInitialDesign, SobolInitialDesign
 from smac.runhistory.dataclasses import TrialValue
 
