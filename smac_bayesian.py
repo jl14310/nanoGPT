@@ -186,7 +186,7 @@ def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_sc
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
-    parser.add_argumnt('--model',type=string, default='nano')
+    parser.add_argument('--model',type=string, default='nano')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
     parser.add_argument('--index', type=int, required=True, help='Index of the SLURM array job')
     args = parser.parse_args()
