@@ -146,13 +146,14 @@ def load_json_from_unknown_directory(base_directory, target_file_name):
 """
 def find_newest_directory(base_directory):
     base_path = Path(base_directory)
+    if not base_path:
+        return None
     directories = [d for d in base_path.iterdir() if d.is_dir()]
 
     if not directories:
         return None
 
     newest_dir = max(directories, key=lambda d: d.stat().st_ctime)
-    print(newest_dir)
     return newest_dir
 
 
