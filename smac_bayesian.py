@@ -82,7 +82,7 @@ class gpt2:
 
 
 from pathlib import Path
-
+"""
 def load_json_from_unknown_directory(base_directory, target_file_name):
     for dirpath, dirnames, filenames in os.walk(base_directory):
         if target_file_name in filenames:
@@ -90,7 +90,7 @@ def load_json_from_unknown_directory(base_directory, target_file_name):
             return Path(dirpath)
     print('not found')
     return None
-
+"""
 def find_newest_directory(base_directory):
     base_path = Path(base_directory)
     directories = [d for d in base_path.iterdir() if d.is_dir()]
@@ -157,10 +157,10 @@ if __name__ == "__main__":
                 max_config_calls=1
             )
         smac = HyperparameterOptimizationFacade(
-            reloaded_scenario,
+            scenario,
             model.train,
-            intensifier=intensifier1,
-            initial_design=reloaded_initial,
+            intensifier=intensifier,
+            initial_design=initial,
             overwrite=False
         )
 
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     os.makedirs(state_dir, exist_ok=True)
     with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
         pickle.dump(initial, f)
-    """
+    
     iteration += 1
     print('==========',iteration)
     initial_path = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
@@ -239,7 +239,7 @@ if __name__ == "__main__":
         print("Error: Could not reload saved state for verification.")
 
     
-    """
+    
     model = gpt2(seed)
     
     state_dir = f'state_files/seed_{seed}'
