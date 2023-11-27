@@ -146,7 +146,7 @@ def load_json_from_unknown_directory(base_directory, target_file_name):
 """
 def find_newest_directory(base_directory):
     base_path = Path(base_directory)
-    if not base_path:
+    if not base_path.exists():
         return None
     directories = [d for d in base_path.iterdir() if d.is_dir()]
 
