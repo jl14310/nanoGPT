@@ -179,7 +179,7 @@ if __name__ == "__main__":
         pickle.dump(initial, f)
     """
     iteration += 1
-    
+    print('==========',iteration)
     initial_path = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
     with open(initial_path, 'rb') as f:
         reloaded_initial = pickle.load(f)
@@ -214,6 +214,7 @@ if __name__ == "__main__":
     
     iteration += 1
     
+    print('==========',iteration)
     initial_path = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
     with open(initial_path, 'rb') as f:
         reloaded_initial1 = pickle.load(f)
