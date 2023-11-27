@@ -147,12 +147,12 @@ if __name__ == "__main__":
         print('initialized')
         model = gpt2(seed)
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
-        initial = RandomInitialDesign(scenario, n_configs=8)
+        initial = RandomInitialDesign(scenario, n_configs=5)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
         model = gpt2(seed)
-        n_configs = max(0,9-iteration)
+        n_configs = max(0,6-iteration)
         print(iteration, n_configs)
         initial = RandomInitialDesign(scenario, n_configs=n_configs)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
