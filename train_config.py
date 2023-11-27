@@ -542,7 +542,7 @@ def main():
     conf = load_config()
     print(conf)
     seed = conf.get_int("seed")
-    modeltype = conf.get_string("wandb_run_name")
+    modeltype = conf.get_string("wandb_run_name")[1:-1]
     assert len(conf) > 0, "no configuration provided"
     
     start_time = time.time()
