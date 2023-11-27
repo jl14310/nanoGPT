@@ -149,7 +149,7 @@ if __name__ == "__main__":
         print('initialized')
         model = gpt2(seed)
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
-        initial = RandomInitialDesign(scenario, n_configs=5)
+        initial = RandomInitialDesign(scenario, n_configs=2)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
@@ -168,7 +168,20 @@ if __name__ == "__main__":
             initial_design=initial,
             overwrite=False
         )
-
+    
+    # We can ask SMAC which trials should be evaluated next
+    for i in range(4):
+        print(i)
+        info = smac.ask()
+        assert info.seed is not None
+        print(i, 'info')
+        cost = model.train(config=info.config,seed=info.seed)
+        print(i, 'cost')
+        value = TrialValue(cost=cost, time=0.5)
+        print(i, 'value')
+        smac.tell(info, value)
+        smac.scenario.save()
+    """
     info = smac.ask()
     cost = model.train(config=info.config, seed=info.seed)
     value = TrialValue(cost=cost, time=0.5)
@@ -177,7 +190,7 @@ if __name__ == "__main__":
     smac.scenario.save()
     save_state(initial, state_dir, iteration)
     
-    """
+    
     # Save the state and exit
     os.makedirs(state_dir, exist_ok=True)
     with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
