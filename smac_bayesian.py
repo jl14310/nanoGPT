@@ -23,9 +23,9 @@ class gpt2:
         batch_size = Integer('batch_size',(8,13),default = 12)
         block_size = Constant('block_size',1024)
         learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-        max_iters = Constant('max_iters',10)#5000)
+        max_iters = Constant('max_iters',5)#5000)
         weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-        lr_decay_iters = Constant('lr_decay_iters',10)#5000)
+        lr_decay_iters = Constant('lr_decay_iters',5)#5000)
         seed = Constant('seed',self.seed)
         cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
         return cs
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     else:
         model = gpt2(seed)
         n_configs = max(0,6-iteration)
-        print(iteration, n_configs)
+        print('======',iteration)#, n_configs)
         #initial = RandomInitialDesign(scenario, n_configs=n_configs)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
                 scenario,
@@ -169,19 +169,7 @@ if __name__ == "__main__":
             overwrite=False
         )
     
-    # We can ask SMAC which trials should be evaluated next
-    for i in range(4):
-        print(i)
-        info = smac.ask()
-        assert info.seed is not None
-        print(i, 'info')
-        cost = model.train(config=info.config,seed=info.seed)
-        print(i, 'cost')
-        value = TrialValue(cost=cost, time=0.5)
-        print(i, 'value')
-        smac.tell(info, value)
-        smac.scenario.save()
-    """
+
     info = smac.ask()
     cost = model.train(config=info.config, seed=info.seed)
     value = TrialValue(cost=cost, time=0.5)
@@ -189,7 +177,7 @@ if __name__ == "__main__":
     
     smac.scenario.save()
     save_state(initial, state_dir, iteration)
-    
+    """
     
     # Save the state and exit
     os.makedirs(state_dir, exist_ok=True)
