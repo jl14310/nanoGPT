@@ -177,7 +177,7 @@ if __name__ == "__main__":
     os.makedirs(state_dir, exist_ok=True)
     with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
         pickle.dump(initial, f)
-    
+    """
     iteration += 1
     
     initial_path = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
@@ -187,15 +187,14 @@ if __name__ == "__main__":
     reloaded_scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
     print('reloaded scenario')
     
-    intensifier1 = HyperparameterOptimizationFacade.get_intensifier(
+    reloaded_intensifier = HyperparameterOptimizationFacade.get_intensifier(
             reloaded_scenario,
             max_config_calls=1
         )
-    
     reloaded_smac = HyperparameterOptimizationFacade(
         reloaded_scenario,
         model.train,
-        intensifier=intensifier1,
+        intensifier=reloaded_intensifier,
         initial_design=reloaded_initial,
         overwrite=False
     )
@@ -203,7 +202,41 @@ if __name__ == "__main__":
         verify_loaded_state(smac, reloaded_smac, scenario, reloaded_scenario)
     else:
         print("Error: Could not reload saved state for verification.")
-    """
+    
+
+    info = reloaded_smac.ask()
+    cost = model.train(config=info.config, seed=info.seed)
+    value = TrialValue(cost=cost, time=0.5)
+    reloaded_smac.tell(info, value)
+    
+    reloaded_smac.scenario.save()
+    save_state(initial, state_dir, iteration)
+    
+    iteration += 1
+    
+    initial_path = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
+    with open(initial_path, 'rb') as f:
+        reloaded_initial1 = pickle.load(f)
+    print('reloaded initial')
+    reloaded_scenario1 = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
+    print('reloaded scenario')
+    
+    reloaded_intensifier1 = HyperparameterOptimizationFacade.get_intensifier(
+            reloaded_scenario1,
+            max_config_calls=1
+        )
+    reloaded_smac1 = HyperparameterOptimizationFacade(
+        reloaded_scenario1,
+        model.train,
+        intensifier=reloaded_intensifier1,
+        initial_design=reloaded_initial1,
+        overwrite=False
+    )
+    if reloaded_smac1 is not None and reloaded_scenario1 is not None:
+        verify_loaded_state(reloaded_smac, reloaded_smac1, reloaded_scenario, reloaded_scenario1)
+    else:
+        print("Error: Could not reload saved state for verification.")
+
     
     """
     model = gpt2(seed)
