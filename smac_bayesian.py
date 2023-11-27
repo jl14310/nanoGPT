@@ -149,7 +149,8 @@ if __name__ == "__main__":
         print('initialized')
         model = gpt2(seed)
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
-        initial = RandomInitialDesign(scenario, n_configs=2)
+        #initial = smac.get_initial_design(scenario)
+        initial = SobolInitialDesign(scenario, n_configs=2)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
@@ -175,7 +176,6 @@ if __name__ == "__main__":
     smac.tell(info, value)
     
     smac.scenario.save()
-    initial = smac.get_initial_design(scenario)
     save_state(initial, state_dir, iteration)
 
     """
