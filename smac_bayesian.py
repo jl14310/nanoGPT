@@ -168,14 +168,16 @@ if __name__ == "__main__":
             overwrite=False
         )
     
-
+    
     info = smac.ask()
     cost = model.train(config=info.config, seed=info.seed)
     value = TrialValue(cost=cost, time=0.5)
     smac.tell(info, value)
     
     smac.scenario.save()
+    initial = smac.get_initial_design(scenario)
     save_state(initial, state_dir, iteration)
+
     """
     
     # Save the state and exit
