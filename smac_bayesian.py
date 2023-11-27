@@ -118,6 +118,7 @@ def load_state(state_dir, iteration, seed):
 def save_state(initial, state_dir, iteration):
     with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
         pickle.dump(initial, f)
+    print('saved',f'initial_state_{iteration}.pkl')
     
 def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_scenario):
     # Implement custom verification logic here
@@ -155,7 +156,7 @@ if __name__ == "__main__":
         model = gpt2(seed)
         n_configs = max(0,6-iteration)
         print(iteration, n_configs)
-        initial = RandomInitialDesign(scenario, n_configs=n_configs)
+        #initial = RandomInitialDesign(scenario, n_configs=n_configs)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
                 scenario,
                 max_config_calls=1
