@@ -16,25 +16,45 @@ import os
 import pickle 
 
 class gpt2:
-    def __init__(self, seed):
+    def __init__(self, seed, model):
         self.seed = seed
         
     @property
-    def configspace(self) -> ConfigurationSpace:
-        cs = ConfigurationSpace(seed = self.seed)
-        batch_size = Integer('batch_size',(8,13),default = 12)
-        block_size = Constant('block_size',1024)
-        learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-        max_iters = Constant('max_iters',3)#5000)
-        weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-        lr_decay_iters = Constant('lr_decay_iters',3)#5000)
-        seed = Constant('seed',self.seed)
-        cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
+    def configspace(self, model) -> ConfigurationSpace:
+        if model == 'big':
+            cs = ConfigurationSpace(seed = self.seed)
+            batch_size = Integer('batch_size',(8,13),default = 12)
+            block_size = Constant('block_size',1024)
+            learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
+            max_iters = Constant('max_iters',5000)
+            weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
+            lr_decay_iters = Constant('lr_decay_iters',5000)
+            seed = Constant('seed',self.seed)
+            cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
+        else:
+            cs = ConfigurationSpace(seed = self.seed)
+            n_layer = Constant('n_layer',6)
+            n_head = Constant('n_head',6)
+            n_embd = Constant('n_embd',384)
+            dropout = Constant('dropout',0.2)
+            gradient_accumulation_steps = Constant('gradient_accumulation_steps',1)
+            
+            batch_size = Integer('batch_size',(50,100),default = 64)
+            block_size = Constant('block_size',256)
+            learning_rate = Float('learning_rate',(1e-6,1e-3),default = 1e-3)
+            max_iters = Constant('max_iters',20000)
+            weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
+            lr_decay_iters = Constant('lr_decay_iters',20000)
+            warmup_iters = Constant('warmup_iters',100)
+            seed = Constant('seed',self.seed)
+            min_lr = Constant('min_lr',1e-4)
+            cs.add_hyperparameters([n_layer,n_head,n_embd,dropout,gradient_accumulation_steps,batch_size,block_size,learning_rate,max_iters,lr_decay_iters,warmup_iters,weight_decay,seed,min_lr])
         return cs
 
 
-    def train(self,config:Configuration,seed:int):
+    def train(self,config:Configuration,seed:int,model:str):
     # Convert the hyperparameters to their appropriate types
+            
         batch_size = int(config['batch_size'])
         block_size = int(config['block_size'])
         learning_rate = config['learning_rate']
@@ -43,38 +63,68 @@ class gpt2:
         weight_decay = config['weight_decay']
         seed = int(config['seed'])
         
-
-        # Generate the YAML configuration file
-        yaml_config = {
-            'wandb_run_name': "'gpt2-124M'",
-            'batch_size': batch_size,
-            'block_size': block_size,
-            'learning_rate': learning_rate,
-            'max_iters': max_iters,
-            'lr_decay_iters': lr_decay_iters,
-            'eval_interval': 1000,
-            'eval_iters': 200,
-            'log_interval': 10,
-            'weight_decay': weight_decay,
-            'seed':seed
-        }
-
+        if model=='small':
+            n_layer = int(config['n_layer'])
+            n_head = int(config['n_head'])
+            n_embd = int(config['n_embd'])
+            dropout = config['dropout']
+            gradient_accumulation_steps = int(config['gradient_accumulation_steps'])
+            warmup_iters = int(config['warmup_iters'])
+            min_lr = config['min_lr']
+            # Generate the YAML configuration file
+            yaml_config = {
+                'wandb_run_name': "'nano-gpt'",
+                'n_layer':n_layer,
+                'n_head':n_head,
+                'n_embd':n_embd,
+                'dropout':dropout,
+                'gradient_accumulation_steps':gradient_accumulation_steps,
+                'batch_size': batch_size,
+                'block_size': block_size,
+                'learning_rate': learning_rate,
+                'max_iters': max_iters,
+                'beta2':0.99,
+                'decay_lr':True,
+                'warmup_iters':warmup_iters,
+                'min_lr':min_lr,
+                'lr_decay_iters': lr_decay_iters,
+                'eval_interval': 250,
+                'eval_iters': 10,
+                'log_interval': 200,
+                'weight_decay': weight_decay,
+                'seed':seed
+            }
+        else:
+             # Generate the YAML configuration file
+            yaml_config = {
+                'wandb_run_name': "'gpt2-124M'",
+                'batch_size': batch_size,
+                'block_size': block_size,
+                'learning_rate': learning_rate,
+                'max_iters': max_iters,
+                'lr_decay_iters': lr_decay_iters,
+                'eval_interval': 1000,
+                'eval_iters': 200,
+                'log_interval': 10,
+                'weight_decay': weight_decay,
+                'seed':seed
+            }
 
         config_content = ''.join(['{name} = {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
         config_file_content = f'include "../default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
         
         print(config_content)
-        with open(f'config_files/config_{seed}.conf', 'w') as f:
+        with open(f'config_files/config_{model}{seed}.conf', 'w') as f:
             f.write(config_file_content)
-        command = ['python', 'train_config.py', '-f',f'config_files/config_{seed}.conf','-c',f'seed={seed}']
+        command = ['python', 'train_config.py', '-f',f'config_files/config_{model}{seed}.conf','-c',f'seed={seed}']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
         # Read the evaluation score from the subprocess output
         results = None
         
-        os.makedirs(os.path.dirname(f'bayesian_results/results_{seed}.json'), exist_ok=True)
-        with open(f'bayesian_results/results_{seed}.json') as f:
+        os.makedirs(os.path.dirname(f'bayesian_results/results_{model}{seed}.json'), exist_ok=True)
+        with open(f'bayesian_results/results_{model}{seed}.json') as f:
             results = json.load(f)
             # print(results)
         evaluation_score = float(results['best_val_loss'][-1])
@@ -131,19 +181,6 @@ def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_sc
         print("Warning: Scenarios do not match.")
     # Add other necessary checks
 
-
-class StopCallback(Callback):
-    def __init__(self, stop_after: int):
-        self._stop_after = stop_after
-
-    def on_tell_end(self, smbo: SMBO, info: TrialInfo, value: TrialValue) -> bool | None:
-        """Called after the stats are updated and the trial is added to the runhistory. Optionally, returns false
-        to gracefully stop the optimization.
-        """
-        if smbo.runhistory.finished == self._stop_after:
-            return False
-
-        return None
         
 
 if __name__ == "__main__":
@@ -151,30 +188,61 @@ if __name__ == "__main__":
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
     parser.add_argument('--index', type=int, required=True, help='Index of the SLURM array job')
     args = parser.parse_args()
+
+    modeltype = 'small'
     
     # Now you can use args.seed to set your seed
     seed = args.seed
     iteration = args.index
-    state_dir = f'state_files/seed_{seed}'
-
+    state_dir = f'state_files/{modeltype}_seed_{seed}'
     
+    model = gpt2(seed,modeltype)
+    # Scenario object
+    scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
+    print('set up: scenario')
+    initial = RandomInitialDesign(scenario, n_configs=8)
+    
+    intensifier = HyperparameterOptimizationFacade.get_intensifier(
+        scenario,
+        max_config_calls=1,  # We basically use one seed per config only
+    )
+    print('set up: intensifier')
+    # Now we use SMAC to find the best hyperparameters
+    smac = HyperparameterOptimizationFacade(  
+        scenario,
+        model.train,
+        intensifier=intensifier,
+        initial_design=initial,
+        overwrite=True,
+    )
+    print('set up: smac')
+    # We can ask SMAC which trials should be evaluated next
+    for i in range(36):
+        print(i)
+        info = smac.ask()
+        assert info.seed is not None
+        print(i, 'info')
+        cost = model.train(config=info.config,seed=info.seed)
+        print(i, 'cost')
+        value = TrialValue(cost=cost, time=0.5)
+        print(i, 'value')
+        smac.tell(info, value)
+    """
     initial, scenario = load_state(state_dir, iteration, seed)
     
     if initial is None:
         # Initial setup if no saved state exists
         print('initialized')
-        model = gpt2(seed)
-        print(model.configspace)
+        model = gpt2(seed,modeltype)
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
-        
         initial = RandomInitialDesign(scenario, n_configs=2)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
-        smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, callbacks=[StopCallback(stop_after=1)], overwrite=True)
+        smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
-        model = gpt2(seed)
-        print(model.configspace)
+        model = gpt2(seed,modeltype)
+        initial = RandomInitialDesign(scenario, n_configs=2)
         #n_configs = max(0,3-iteration)
-        print('======',iteration)
+        print('======',iteration,'======')
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
                 scenario,
                 max_config_calls=1
@@ -183,11 +251,10 @@ if __name__ == "__main__":
             scenario,
             model.train,
             intensifier=intensifier,
-            initial_design=initial,
-            callbacks=[StopCallback(stop_after=1)], 
+            initial_design=initial, 
             overwrite=False
         )
-    
+    smac.optimize()
     
     info = smac.ask()
     cost = model.train(config=info.config, seed=info.seed)
@@ -195,10 +262,10 @@ if __name__ == "__main__":
     smac.tell(info, value)
     
     smac.scenario.save()
-    save_state(initial, state_dir, iteration)
+    #save_state(initial, state_dir, iteration)
 
     """
-    
+    """
     # Save the state and exit
     os.makedirs(state_dir, exist_ok=True)
     with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
