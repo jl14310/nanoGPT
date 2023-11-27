@@ -230,9 +230,9 @@ if __name__ == "__main__":
         print(i, 'value')
         smac.tell(info, value)
     """
-    initial, scenario = load_state(state_dir, iteration, seed)
+    scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
     
-    if initial is None:
+    if scenario is None:
         # Initial setup if no saved state exists
         print('initialized')
         model = gpt2(seed, modeltype)
