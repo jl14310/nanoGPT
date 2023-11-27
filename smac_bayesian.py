@@ -152,6 +152,8 @@ if __name__ == "__main__":
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
         model = gpt2(seed)
+        n_configs = max(0,9-iteration)
+        initial = RandomInitialDesign(scenario, n_configs=n_configs)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
                 scenario,
                 max_config_calls=1
