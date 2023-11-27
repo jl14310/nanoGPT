@@ -19,7 +19,7 @@ num_proc_load_dataset = num_proc
 if __name__ == '__main__':
     #a takes 54GB in huggingface .cache dir, about 8M documents (8,013,769)
     dataset = load_dataset("wikitext", 'wikitext-103-raw-v1',num_proc=num_proc_load_dataset)
-
+    print('===========\n\n wikitext \n\n ===========')
     # owt by default only contains the 'train' split, so create a test split
     split_dataset = dataset["train"].train_test_split(test_size=0.0005, seed=2357, shuffle=True)
     split_dataset['val'] = split_dataset.pop('test') # rename the test split to val
