@@ -256,7 +256,6 @@ if __name__ == "__main__":
             initial_design=initial, 
             overwrite=False
         )
-    smac.optimize()
     
     info = smac.ask()
     cost = model.train(config=info.config, seed=info.seed)
