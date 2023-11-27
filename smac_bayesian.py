@@ -16,12 +16,13 @@ import os
 import pickle 
 
 class gpt2:
-    def __init__(self, seed, model):
+    def __init__(self, seed, modeltype):
         self.seed = seed
+        self.modeltype = modeltype
         
     @property
-    def configspace(self, model) -> ConfigurationSpace:
-        if model == 'big':
+    def configspace(self) -> ConfigurationSpace:
+        if self.modeltype == 'big':
             cs = ConfigurationSpace(seed = self.seed)
             batch_size = Integer('batch_size',(8,13),default = 12)
             block_size = Constant('block_size',1024)
@@ -52,7 +53,7 @@ class gpt2:
         return cs
 
 
-    def train(self,config:Configuration,seed:int,model:str):
+    def train(self,config:Configuration,seed:int):
     # Convert the hyperparameters to their appropriate types
             
         batch_size = int(config['batch_size'])
@@ -63,7 +64,7 @@ class gpt2:
         weight_decay = config['weight_decay']
         seed = int(config['seed'])
         
-        if model=='small':
+        if self.modeltype =='small':
             n_layer = int(config['n_layer'])
             n_head = int(config['n_head'])
             n_embd = int(config['n_embd'])
@@ -114,17 +115,17 @@ class gpt2:
         config_file_content = f'include "../default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
         
         print(config_content)
-        with open(f'config_files/config_{model}{seed}.conf', 'w') as f:
+        with open(f'config_files/config_{self.modeltype}{seed}.conf', 'w') as f:
             f.write(config_file_content)
-        command = ['python', 'train_config.py', '-f',f'config_files/config_{model}{seed}.conf','-c',f'seed={seed}']
+        command = ['python', 'train_config.py', '-f',f'config_files/config_{self.modeltype}{seed}.conf','-c',f'seed={seed}']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
         # Read the evaluation score from the subprocess output
         results = None
         
-        os.makedirs(os.path.dirname(f'bayesian_results/results_{model}{seed}.json'), exist_ok=True)
-        with open(f'bayesian_results/results_{model}{seed}.json') as f:
+        os.makedirs(os.path.dirname(f'bayesian_results/results_{self.modeltype}{seed}.json'), exist_ok=True)
+        with open(f'bayesian_results/results_{self.modeltype}{seed}.json') as f:
             results = json.load(f)
             # print(results)
         evaluation_score = float(results['best_val_loss'][-1])
@@ -198,7 +199,7 @@ if __name__ == "__main__":
     
     model = gpt2(seed,modeltype)
     # Scenario object
-    scenario = Scenario(model.configspace(modeltype), deterministic=False, n_trials=100, seed=seed)
+    scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
     print('set up: scenario')
     initial = RandomInitialDesign(scenario, n_configs=8)
     
@@ -234,7 +235,7 @@ if __name__ == "__main__":
         # Initial setup if no saved state exists
         print('initialized')
         model = gpt2(seed,modeltype)
-        scenario = Scenario(model.configspace(modeltype), deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
+        scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=2)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
