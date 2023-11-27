@@ -130,6 +130,20 @@ def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_sc
     # Add other necessary checks
 
 
+class StopCallback(Callback):
+    def __init__(self, stop_after: int):
+        self._stop_after = stop_after
+
+    def on_tell_end(self, smbo: SMBO, info: TrialInfo, value: TrialValue) -> bool | None:
+        """Called after the stats are updated and the trial is added to the runhistory. Optionally, returns false
+        to gracefully stop the optimization.
+        """
+        if smbo.runhistory.finished == self._stop_after:
+            return False
+
+        return None
+        
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
@@ -150,10 +164,10 @@ if __name__ == "__main__":
         model = gpt2(seed)
         print(model.configspace)
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
-        #initial = smac.get_initial_design(scenario)
+        
         initial = RandomInitialDesign(scenario, n_configs=2)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
-        smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
+        smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, callbacks=[StopCallback(stop_after=1)], overwrite=True)
     else:
         model = gpt2(seed)
         print(model.configspace)
@@ -168,6 +182,7 @@ if __name__ == "__main__":
             model.train,
             intensifier=intensifier,
             initial_design=initial,
+            callbacks=[StopCallback(stop_after=1)], 
             overwrite=False
         )
     
