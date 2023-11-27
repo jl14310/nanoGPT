@@ -230,9 +230,9 @@ if __name__ == "__main__":
         print(i, 'value')
         smac.tell(info, value)
     """
-    scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
+    scenario_path = find_newest_directory(state_dir)
     
-    if scenario is None:
+    if scenario_path is None:
         # Initial setup if no saved state exists
         print('initialized')
         model = gpt2(seed, modeltype)
@@ -242,7 +242,10 @@ if __name__ == "__main__":
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
     else:
         model = gpt2(seed,modeltype)
+        
+        scenario = Scenario.load(scenario_path/f'{seed}')
         initial = RandomInitialDesign(scenario, n_configs=2)
+        
         #n_configs = max(0,3-iteration)
         print('======',iteration,'======')
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
