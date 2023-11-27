@@ -98,7 +98,7 @@ class gpt2:
         else:
              # Generate the YAML configuration file
             yaml_config = {
-                'wandb_run_name': "'gpt2-124M'",
+                'wandb_run_name': "'gpt2",
                 'batch_size': batch_size,
                 'block_size': block_size,
                 'learning_rate': learning_rate,
