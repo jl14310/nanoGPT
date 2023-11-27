@@ -33,9 +33,9 @@ class gpt2:
             batch_size = Integer('batch_size',(50,100),default = 64)
             block_size = Constant('block_size',256)
             learning_rate = Float('learning_rate',(1e-6,1e-3),default = 1e-3)
-            max_iters = Constant('max_iters',10)#20000)
+            max_iters = Constant('max_iters',2)#20000)
             weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-            lr_decay_iters = Constant('lr_decay_iters',10)#20000)
+            lr_decay_iters = Constant('lr_decay_iters',2)#20000)
             warmup_iters = Constant('warmup_iters',100)
             seed = Constant('seed',self.seed)
             min_lr = Constant('min_lr',1e-4)
@@ -45,9 +45,9 @@ class gpt2:
             batch_size = Integer('batch_size',(8,13),default = 12)
             block_size = Constant('block_size',1024)
             learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-            max_iters = Constant('max_iters',5000)
+            max_iters = Constant('max_iters',2)#5000)
             weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-            lr_decay_iters = Constant('lr_decay_iters',5000)
+            lr_decay_iters = Constant('lr_decay_iters',2)#5000)
             seed = Constant('seed',self.seed)
             cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
         return cs
@@ -198,6 +198,7 @@ if __name__ == "__main__":
     state_dir = f'state_files/{modeltype}_seed_{seed}'
     
     model = gpt2(seed,modeltype)
+    """
     # Scenario object
     scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
     print('set up: scenario')
@@ -234,7 +235,7 @@ if __name__ == "__main__":
     if initial is None:
         # Initial setup if no saved state exists
         print('initialized')
-        model = gpt2(seed,modeltype)
+        model = gpt2(seed, modeltype)
         scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=2)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
@@ -265,7 +266,7 @@ if __name__ == "__main__":
     smac.scenario.save()
     #save_state(initial, state_dir, iteration)
 
-    """
+    
     """
     # Save the state and exit
     os.makedirs(state_dir, exist_ok=True)
