@@ -156,7 +156,7 @@ if __name__ == "__main__":
         model = gpt2(seed)
         n_configs = max(0,3-iteration)
         print('======',iteration, n_configs)
-        initial = RandomInitialDesign(scenario, n_configs=n_configs)
+        #initial = RandomInitialDesign(scenario, n_configs=n_configs)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(
                 scenario,
                 max_config_calls=1
@@ -165,9 +165,9 @@ if __name__ == "__main__":
             scenario,
             model.train,
             intensifier=intensifier,
-            initial_design=initial,
+            
             overwrite=False
-        )
+        )#initial_design=initial,
     
 
     info = smac.ask()
