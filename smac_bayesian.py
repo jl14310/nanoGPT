@@ -198,7 +198,7 @@ if __name__ == "__main__":
     
     model = gpt2(seed,modeltype)
     # Scenario object
-    scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
+    scenario = Scenario(model.configspace(modeltype), deterministic=False, n_trials=100, seed=seed)
     print('set up: scenario')
     initial = RandomInitialDesign(scenario, n_configs=8)
     
@@ -234,7 +234,7 @@ if __name__ == "__main__":
         # Initial setup if no saved state exists
         print('initialized')
         model = gpt2(seed,modeltype)
-        scenario = Scenario(model.configspace, deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
+        scenario = Scenario(model.configspace(modeltype), deterministic=False, output_directory=f'state_files/seed_{seed}', n_trials=100, seed=seed)
         initial = RandomInitialDesign(scenario, n_configs=2)
         intensifier = HyperparameterOptimizationFacade.get_intensifier(scenario, max_config_calls=1)
         smac = HyperparameterOptimizationFacade(scenario, model.train, intensifier=intensifier, initial_design=initial, overwrite=True)
