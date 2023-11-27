@@ -40,7 +40,6 @@ class gpt2:
             seed = Constant('seed',self.seed)
             min_lr = Constant('min_lr',1e-4)
             cs.add_hyperparameters([n_layer,n_head,n_embd,dropout,gradient_accumulation_steps,batch_size,block_size,learning_rate,max_iters,lr_decay_iters,warmup_iters,weight_decay,seed,min_lr])
-        
         else:
             cs = ConfigurationSpace(seed = self.seed)
             batch_size = Integer('batch_size',(8,13),default = 12)
@@ -51,7 +50,7 @@ class gpt2:
             lr_decay_iters = Constant('lr_decay_iters',5000)
             seed = Constant('seed',self.seed)
             cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
-       return cs
+        return cs
 
 
     def train(self,config:Configuration,seed:int):
