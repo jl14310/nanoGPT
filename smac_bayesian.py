@@ -22,17 +22,7 @@ class gpt2:
         
     @property
     def configspace(self) -> ConfigurationSpace:
-        if self.modeltype == 'big':
-            cs = ConfigurationSpace(seed = self.seed)
-            batch_size = Integer('batch_size',(8,13),default = 12)
-            block_size = Constant('block_size',1024)
-            learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-            max_iters = Constant('max_iters',5000)
-            weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-            lr_decay_iters = Constant('lr_decay_iters',5000)
-            seed = Constant('seed',self.seed)
-            cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
-        else:
+        if self.modeltype == 'nano':
             cs = ConfigurationSpace(seed = self.seed)
             n_layer = Constant('n_layer',6)
             n_head = Constant('n_head',6)
@@ -50,7 +40,18 @@ class gpt2:
             seed = Constant('seed',self.seed)
             min_lr = Constant('min_lr',1e-4)
             cs.add_hyperparameters([n_layer,n_head,n_embd,dropout,gradient_accumulation_steps,batch_size,block_size,learning_rate,max_iters,lr_decay_iters,warmup_iters,weight_decay,seed,min_lr])
-        return cs
+        
+        else:
+            cs = ConfigurationSpace(seed = self.seed)
+            batch_size = Integer('batch_size',(8,13),default = 12)
+            block_size = Constant('block_size',1024)
+            learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
+            max_iters = Constant('max_iters',5000)
+            weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
+            lr_decay_iters = Constant('lr_decay_iters',5000)
+            seed = Constant('seed',self.seed)
+            cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
+       return cs
 
 
     def train(self,config:Configuration,seed:int):
@@ -64,7 +65,7 @@ class gpt2:
         weight_decay = config['weight_decay']
         seed = int(config['seed'])
         
-        if self.modeltype =='small':
+        if self.modeltype =='nano':
             n_layer = int(config['n_layer'])
             n_head = int(config['n_head'])
             n_embd = int(config['n_embd'])
@@ -74,7 +75,7 @@ class gpt2:
             min_lr = config['min_lr']
             # Generate the YAML configuration file
             yaml_config = {
-                'wandb_run_name': "'nano-gpt'",
+                'wandb_run_name': "'nano'",
                 'n_layer':n_layer,
                 'n_head':n_head,
                 'n_embd':n_embd,
@@ -115,17 +116,17 @@ class gpt2:
         config_file_content = f'include "../default_gpt2.conf"\nconfig {{\n{config_content}\n}}'
         
         print(config_content)
-        with open(f'config_files/config_{self.modeltype}{seed}.conf', 'w') as f:
+        with open(f'config_files/config_{self.modeltype}_{seed}.conf', 'w') as f:
             f.write(config_file_content)
-        command = ['python', 'train_config.py', '-f',f'config_files/config_{self.modeltype}{seed}.conf','-c',f'seed={seed}']
+        command = ['python', 'train_config.py', '-f',f'config_files/config_{self.modeltype}_{seed}.conf','-c',f'seed={seed}']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
         # Read the evaluation score from the subprocess output
         results = None
         
-        os.makedirs(os.path.dirname(f'bayesian_results/results_{self.modeltype}{seed}.json'), exist_ok=True)
-        with open(f'bayesian_results/results_{self.modeltype}{seed}.json') as f:
+        os.makedirs(os.path.dirname(f'bayesian_results/results_{self.modeltype}_{seed}.json'), exist_ok=True)
+        with open(f'bayesian_results/results_{self.modeltype}_{seed}.json') as f:
             results = json.load(f)
             # print(results)
         evaluation_score = float(results['best_val_loss'][-1])
@@ -186,15 +187,15 @@ def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_sc
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
+    parser.add_argumnt('--model',type=string, default='nano')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
     parser.add_argument('--index', type=int, required=True, help='Index of the SLURM array job')
     args = parser.parse_args()
-
-    modeltype = 'small'
     
     # Now you can use args.seed to set your seed
     seed = args.seed
     iteration = args.index
+    modeltype = args.model
     state_dir = f'state_files/{modeltype}_seed_{seed}'
     
     model = gpt2(seed,modeltype)
