@@ -152,8 +152,7 @@ def train(conf: ConfigTree):
   
     if master_process:
         os.makedirs(out_dir, exist_ok=True)
-    #seed = conf.get_int("seed")
-    #print('--------seed----------',seed)
+    print('=======started=======')
     torch.manual_seed(1337 + seed_offset)
     torch.backends.cuda.matmul.allow_tf32 = True  # allow tf32 on matmul
     torch.backends.cudnn.allow_tf32 = True  # allow tf32 on cudnn
@@ -547,7 +546,7 @@ def main():
     
     start_time = time.time()
     best_val_loss, iter_num = train(conf)
-    write_results(f'bayesian_results/results_{modeltype}_{seed}.json', conf, time.time()-start_time, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
+    #write_results(f'bayesian_results/results_{modeltype}_{seed}.json', conf, time.time()-start_time, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
 
 
 if __name__ == "__main__":
