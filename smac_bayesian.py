@@ -135,54 +135,17 @@ class gpt2:
 
 
 from pathlib import Path
-"""
-def load_json_from_unknown_directory(base_directory, target_file_name):
-    for dirpath, dirnames, filenames in os.walk(base_directory):
-        if target_file_name in filenames:
-            print(dirpath)
-            return Path(dirpath)
-    print('not found')
-    return None
-"""
+
 def find_newest_directory(base_directory):
     base_path = Path(base_directory)
     if not base_path.exists():
         return None
     directories = [d for d in base_path.iterdir() if d.is_dir()]
-
     if not directories:
         return None
-
     newest_dir = max(directories, key=lambda d: d.stat().st_ctime)
     return newest_dir
-
-
-def load_state(state_dir, iteration, seed):
-    initial_file = os.path.join(state_dir, f'initial_state_{iteration-1}.pkl')
     
-    if os.path.exists(initial_file):
-        with open(initial_file, 'rb') as f:
-            initial = pickle.load(f)
-        print('reloaded initial')
-        scenario = Scenario.load(find_newest_directory(state_dir)/f'{seed}')
-        return initial, scenario
-    else:
-        return None, None
-    
-def save_state(initial, state_dir, iteration):
-    with open(os.path.join(state_dir, f'initial_state_{iteration}.pkl'), 'wb') as f:
-        pickle.dump(initial, f)
-    print('saved',f'initial_state_{iteration}.pkl')
-    
-def verify_loaded_state(original_smac, loaded_smac, original_scenario, loaded_scenario):
-    # Implement custom verification logic here
-    # Example:
-    if original_smac.runhistory != loaded_smac.runhistory:
-        print("Warning: Run histories do not match.")
-    if original_scenario != loaded_scenario:
-        print("Warning: Scenarios do not match.")
-    # Add other necessary checks
-
         
 
 if __name__ == "__main__":
@@ -199,7 +162,7 @@ if __name__ == "__main__":
     state_dir = f'state_files/{modeltype}_seed_{seed}'
     
     model = gpt2(seed,modeltype)
-    """
+    
     # Scenario object
     scenario = Scenario(model.configspace, deterministic=False, n_trials=100, seed=seed)
     print('set up: scenario')
@@ -267,9 +230,8 @@ if __name__ == "__main__":
     smac.tell(info, value)
     
     smac.scenario.save()
-    #save_state(initial, state_dir, iteration)
 
-    
+    """
     """
     # Save the state and exit
     os.makedirs(state_dir, exist_ok=True)
