@@ -184,7 +184,7 @@ if __name__ == "__main__":
     print('set up: smac')
     # We can ask SMAC which trials should be evaluated next
     for i in range(36):
-        print(i)
+        print('==============',i,'==============')
         info = smac.ask()
         assert info.seed is not None
         print(i, 'info')
