@@ -150,15 +150,15 @@ def find_newest_directory(base_directory):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run GPT-2 training with specified seed.')
-    parser.add_argument('--model',type=str, default='nano')
+    #parser.add_argument('--model',type=str, default='nano')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
-    parser.add_argument('--index', type=int, required=True, help='Index of the SLURM array job')
+    #parser.add_argument('--index', type=int, required=True, help='Index of the SLURM array job')
     args = parser.parse_args()
     
     # Now you can use args.seed to set your seed
     seed = args.seed
-    iteration = args.index
-    modeltype = args.model
+    #iteration = args.index
+    modeltype = 'nano' # args.model
     state_dir = f'state_files/{modeltype}_seed_{seed}'
     
     model = gpt2(seed,modeltype)
