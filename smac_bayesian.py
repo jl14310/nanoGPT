@@ -159,8 +159,10 @@ if __name__ == "__main__":
     seed = args.seed
     #iteration = args.index
     modeltype = 'nano' # args.model
-    state_dir = f'state_files/{modeltype}_seed_{seed}'
     
+    print('============',seed,type(seed),'============')
+    
+    state_dir = f'state_files/{modeltype}_seed_{seed}'
     model = gpt2(seed,modeltype)
     
     # Scenario object
