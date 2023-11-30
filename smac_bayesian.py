@@ -45,9 +45,9 @@ class gpt2:
             batch_size = Integer('batch_size',(8,13),default = 12)
             block_size = Constant('block_size',1024)
             learning_rate = Float('learning_rate',(1e-6,1e-3),default = 6e-4)
-            max_iters = Constant('max_iters',2)#5000)
+            max_iters = Constant('max_iters',5000)
             weight_decay = Float('weight_decay',(1e-3,1e0),default = 1e-1)
-            lr_decay_iters = Constant('lr_decay_iters',2)#5000)
+            lr_decay_iters = Constant('lr_decay_iters',5000)
             seed = Constant('seed',self.seed)
             cs.add_hyperparameters([batch_size,block_size,learning_rate,max_iters,lr_decay_iters,weight_decay,seed])
         return cs
