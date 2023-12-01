@@ -128,10 +128,11 @@ class GPT(nn.Module):
             wpe = nn.Embedding(config.block_size, config.n_embd),
             drop = nn.Dropout(config.dropout),
             h = nn.ModuleList([Block(config) for _ in range(config.n_layer)]),
-            """
-            ln_f = LayerNorm(config.n_embd, bias=config.bias),
-            """
+            
         ))
+        """
+            ln_f = LayerNorm(config.n_embd, bias=config.bias),
+         """
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
         # with weight tying when using torch.compile() some warnings get generated:
         # "UserWarning: functional_call was passed multiple values for tied weights.
