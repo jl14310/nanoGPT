@@ -128,7 +128,7 @@ class GPT(nn.Module):
             wpe = nn.Embedding(config.block_size, config.n_embd),
             drop = nn.Dropout(config.dropout),
             h = nn.ModuleList([Block(config) for _ in range(config.n_layer)]),
-            
+            ln_f = config.n_embd,
         ))
         """
             ln_f = LayerNorm(config.n_embd, bias=config.bias),
