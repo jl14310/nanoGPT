@@ -546,7 +546,7 @@ def main():
     
     start_time = time.time()
     best_val_loss, iter_num = train(conf)
-    write_results(f'bayesian_results/results_{modeltype}_{seed}.json', conf, time.time()-start_time, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
+    write_results(f'bayesian_n_results/results_{modeltype}_{seed}.json', conf, time.time()-start_time, {'best_val_loss':best_val_loss, 'iter_num':iter_num})
 
 
 if __name__ == "__main__":
