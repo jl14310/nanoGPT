@@ -1,0 +1,303 @@
+{
+    "out_dir": [
+        "temp",
+        "temp",
+        "temp",
+        "temp",
+        "temp"
+    ],
+    "eval_interval": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+    ],
+    "log_interval": [
+        200,
+        200,
+        200,
+        200,
+        200
+    ],
+    "eval_iters": [
+        10,
+        10,
+        10,
+        10,
+        10
+    ],
+    "eval_only": [
+        false,
+        false,
+        false,
+        false,
+        false
+    ],
+    "always_save_checkpoint": [
+        true,
+        true,
+        true,
+        true,
+        true
+    ],
+    "init_from": [
+        "scratch",
+        "scratch",
+        "scratch",
+        "scratch",
+        "scratch"
+    ],
+    "wandb_project": [
+        "owt",
+        "owt",
+        "owt",
+        "owt",
+        "owt"
+    ],
+    "wandb_run_name": [
+        "'nano'",
+        "'nano'",
+        "'nano'",
+        "'nano'",
+        "'nano'"
+    ],
+    "wandb_log": [
+        false,
+        false,
+        false,
+        false,
+        false
+    ],
+    "dataset": [
+        "openwebtext",
+        "openwebtext",
+        "openwebtext",
+        "openwebtext",
+        "openwebtext"
+    ],
+    "gradient_accumulation_steps": [
+        1,
+        1,
+        1,
+        1,
+        1
+    ],
+    "batch_size": [
+        80,
+        80,
+        80,
+        80,
+        80
+    ],
+    "block_size": [
+        256,
+        256,
+        256,
+        256,
+        256
+    ],
+    "n_layer": [
+        6,
+        6,
+        6,
+        6,
+        6
+    ],
+    "n_head": [
+        6,
+        6,
+        6,
+        6,
+        6
+    ],
+    "n_embd": [
+        384,
+        384,
+        384,
+        384,
+        384
+    ],
+    "dropout": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+    ],
+    "bias": [
+        false,
+        false,
+        false,
+        false,
+        false
+    ],
+    "vocab_size": [
+        50304,
+        50304,
+        50304,
+        50304,
+        50304
+    ],
+    "vocab_size_reason": [
+        "defaulting to vocab_size of GPT-2 to 50304 (50257 rounded up for efficiency)",
+        "defaulting to vocab_size of GPT-2 to 50304 (50257 rounded up for efficiency)",
+        "defaulting to vocab_size of GPT-2 to 50304 (50257 rounded up for efficiency)",
+        "defaulting to vocab_size of GPT-2 to 50304 (50257 rounded up for efficiency)",
+        "defaulting to vocab_size of GPT-2 to 50304 (50257 rounded up for efficiency)"
+    ],
+    "learning_rate": [
+        0.0007823115151827739,
+        0.0007823115151827739,
+        0.0007823115151827739,
+        0.0007823115151827739,
+        7.82311515182774e-05
+    ],
+    "max_iters": [
+        100000,
+        100000,
+        100000,
+        100000,
+        100000
+    ],
+    "weight_decay": [
+        0.09445159289871512,
+        0.09445159289871512,
+        0.09445159289871512,
+        0.09445159289871512,
+        0.09445159289871512
+    ],
+    "beta1": [
+        0.9,
+        0.9,
+        0.9,
+        0.9,
+        0.9
+    ],
+    "beta2": [
+        0.99,
+        0.99,
+        0.99,
+        0.99,
+        0.99
+    ],
+    "grad_clip": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "decay_lr": [
+        true,
+        true,
+        true,
+        true,
+        true
+    ],
+    "warmup_iters": [
+        1000,
+        1000,
+        1000,
+        1000,
+        100
+    ],
+    "lr_decay_iters": [
+        100000,
+        100000,
+        100000,
+        100000,
+        100000
+    ],
+    "min_lr": [
+        0.0001,
+        0.0001,
+        0.0001,
+        0.0001,
+        1e-05
+    ],
+    "backend": [
+        "nccl",
+        "nccl",
+        "nccl",
+        "nccl",
+        "nccl"
+    ],
+    "ddp_rank": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+    ],
+    "seed_offset": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "ddp_world_size": [
+        1,
+        1,
+        1,
+        1,
+        1
+    ],
+    "ddp_local_rank": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+    ],
+    "device": [
+        "cuda",
+        "cuda",
+        "cuda",
+        "cuda",
+        "cuda"
+    ],
+    "dtype": [
+        "bfloat16",
+        "bfloat16",
+        "bfloat16",
+        "bfloat16",
+        "bfloat16"
+    ],
+    "compile": [
+        true,
+        true,
+        true,
+        true,
+        true
+    ],
+    "seed": [
+        "55663",
+        "55663",
+        "55663",
+        "55663",
+        "55663"
+    ],
+    "time": [
+        11858.296496391296,
+        11864.986092329025,
+        11866.543775081635,
+        11878.671511888504,
+        11864.435270547867
+    ],
+    "best_val_loss": [
+        3.9309158325195312,
+        3.930891752243042,
+        3.9298367500305176,
+        3.93041729927063,
+        4.328721523284912
+    ],
+    "iter_num": [
+        100001,
+        100001,
+        100001,
+        100001,
+        100001
+    ]
+}
