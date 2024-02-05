@@ -124,8 +124,8 @@ class gpt2:
         # Read the evaluation score from the subprocess output
         results = None
         
-        os.makedirs(os.path.dirname(f'bayesian_n_results/results_{self.modeltype}_{seed}.json'), exist_ok=True)
-        with open(f'bayesian_n_results/results_{self.modeltype}_{seed}.json') as f:
+        os.makedirs(os.path.dirname(f'bayesian_results/results_{self.modeltype}_{seed}.json'), exist_ok=True)
+        with open(f'bayesian_results/results_{self.modeltype}_{seed}.json') as f:
             results = json.load(f)
             # print(results)
         evaluation_score = float(results['best_val_loss'][-1])
